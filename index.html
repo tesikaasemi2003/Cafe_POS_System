@@ -129,7 +129,7 @@
     </section>
     </div>
 
-    <!-- ============= PAGE: DASHBOARD ============= -->
+    <!--------------- PAGE: DASHBOARD --------------->
     <section id="page-dash" class="page">
         <div class="mgmt-wrap">
             <div class="pg-head">
@@ -168,6 +168,29 @@
             <div class="card-box">
                 <input class="s-bar" type="text" id="cust-search" placeholder="🔍 Search by name or phone...">
                 <table class="tbl">
+                    <thead>
+                    <tr>
+                        <th>#ID</th><th>Name</th><th>Phone</th>
+                        <th>Email</th><th>Address</th><th>Loyalty</th><th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody id="cust-tbl"></tbody>
+                </table>
+                <div id="cust-empty" style="display:none;text-align:center;color:var(--text-light);padding:24px;font-size:13px;">No customers found.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============= PAGE: MENU ITEMS ============= -->
+    <section id="page-items" class="page">
+        <div class="mgmt-wrap">
+            <div class="pg-head">
+                <div>
+                    <div class="pg-title">🍴 Menu Items</div>
+                    <div class="pg-sub">Manage your menu catalog</div>
+                </div>
+                <button class="btn-new" id="btn-new-item">+ New Item</button>
+            </div>
 </main>
 
 
