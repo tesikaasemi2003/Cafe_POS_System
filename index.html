@@ -35,7 +35,7 @@
             <label class="l-label">Password</label>
             <input class="l-input" id="lp" type="password" placeholder="••••••">
             <div class="l-err" id="le">⚠️ Invalid credentials!</div>
-            <button class="btn-signin" onclick="doLogin()">Sign In</button>
+            <button class="btn-signin">Sign In</button>
         </div>
     </div>
 </div>
@@ -44,7 +44,7 @@
 <div id="main-app" style="display:none; height:100vh; flex-direction:column;">
 
 <!-------------Header/Nav bar------------->
-<header>
+  <header>
     <nav class="nav bar">
         <div class="tb-logo-ph">
             <img src="assets/images/login%20page/T_T%20Coffee%20Shop%20Logo.png" alt="header logo">
@@ -56,43 +56,37 @@
             <div class="tb-avatar">AD</div>
             <span class="tb-uname">Admin</span>
         </div>
-        <button class="btn-signout" onclick="doLogout()">Sign out</button>
+        <button class="btn-signout">Sign out</button>
     </nav>
-</header>
-
+  </header>
 
 
 <!---------App Body---------->
-<div class="app-body">
-    <!-------Page1: NEW ORDER-------->
-    <div id="page-order" class="page active">
-        <div class="menu-area">
-            <!--------category Tabs---------->
-            <div class="cat-tabs">
-                <div class="cat-tab- t-all active" onclick="setCat('All','all')">All</div>
-                <div class="cat-tab- t-hot" onclick="setCat('Hot Drinks','hot')">Hot Drinks</div>
-                <div class="cat-tab- t-cold" onclick="setCat('Cold Drinks','cold')">Ice Drinks</div>
-                <div class="cat-tab- t-bakery" onclick="setCat('Bakery','bakery')">Bakery & Pastries</div>
-                <div class="cat-tab- t-sand" onclick="setCat('Sandwiches','sand')">Sandwiches & Wraps</div>
-                <div class="cat-tab- t-meals" onclick="setCat('Light Meals','meals')">Light Meals</div>
-                <div class="cat-tab- t-dessert" onclick="setCat('Desserts','dessert')">Desserts</div>
-            </div>
-            <!-----------Welcome + search----------->
-            <div class="menu-top">
-                <div class="welcome-box">
-                    <div class="welcome-text">Hi Admin 👋</div>
-                    <div class="welcome-sub">Welcome Back!</div>
+<main>
+    <div class="app-body">
+        <!-------Page1: NEW ORDER-------->
+        <div id="page-order" class="page active">
+            <div class="menu-area">
+                <!--------category Tabs---------->
+                <div class="cat-tabs"></div>
+                <!-----------Welcome + search----------->
+                <div class="menu-top">
+                    <div class="welcome-box">
+                        <div class="welcome-text">Hi Admin 👋</div>
+                        <div class="welcome-sub">Welcome Back!</div>
+                    </div>
+                    <div class="welcome sticker">
+                        <img src="assets/images/main%20page/coffee_avatar.png" alt="coffee avatar">
+                    </div>
+                    <input class="search-box" id="menuSearch" type="text" placeholder="search items...">
                 </div>
-                <div class="welcome sticker">
-                  <img src="assets/images/main%20page/coffee_avatar.png" alt="coffee avatar">
-                </div>
-                <input class="search-box" id="menuSearch" type="text" placeholder="search items..." oninput="renderGrid()">
             </div>
         </div>
+
     </div>
 
-</div>
 
+</main>
 
 
 
