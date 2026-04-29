@@ -282,6 +282,87 @@
     </div>
 </div>
 
+<!-- Menu Item Modal -->
+<div class="modal-ov" id="item-modal">
+    <div class="modal-box">
+        <div class="m-title">
+            <div class="m-icon">🍵</div>
+            <span id="item-modal-title">Add Menu Item</span>
+        </div>
+        <input type="hidden" id="i-id">
+        <div class="m-row">
+            <div class="f-g">
+                <label class="f-l">Item Code *</label>
+                <input class="f-i" id="i-code" type="text" placeholder="e.g. HOT001">
+                <div class="f-err" id="i-code-e">Format: 2–4 CAPS + 3 digits (e.g. HOT001).</div>
+            </div>
+            <div class="f-g">
+                <label class="f-l">Category *</label>
+                <select class="f-i" id="i-cat"></select>
+                <div class="f-err" id="i-cat-e">Please select a category.</div>
+            </div>
+        </div>
+        <div class="f-g">
+            <label class="f-l">Item Name *</label>
+            <input class="f-i" id="i-name" type="text" placeholder="e.g. Iced Latte">
+            <div class="f-err" id="i-name-e">Valid item name required.</div>
+        </div>
+        <div class="m-row">
+            <div class="f-g">
+                <label class="f-l">Price (Rs.) *</label>
+                <input class="f-i" id="i-price" type="number" min="0" step="0.01" placeholder="e.g. 450">
+                <div class="f-err" id="i-price-e">Valid positive price required.</div>
+            </div>
+            <div class="f-g">
+                <label class="f-l">Stock Qty *</label>
+                <input class="f-i" id="i-qty" type="number" min="0" placeholder="e.g. 50">
+                <div class="f-err" id="i-qty-e">Valid stock quantity required.</div>
+            </div>
+        </div>
+        <div class="m-row">
+            <div class="f-g">
+                <label class="f-l">Emoji Icon</label>
+                <input class="f-i" id="i-icon" type="text" placeholder="☕" maxlength="4">
+            </div>
+            <div class="f-g">
+                <label class="f-l">Photo (optional)</label>
+                <div class="photo-upload-wrap">
+                    <div class="photo-preview" id="photo-preview">
+                        <span style="font-size:28px;opacity:.4">📷</span>
+                    </div>
+                    <div>
+                        <label class="btn-upload-photo" for="i-photo-file">📁 Upload</label>
+                        <input type="file" id="i-photo-file" accept="image/*" style="display:none">
+                        <button type="button" class="btn-remove-photo" id="btn-remove-photo" style="display:none">✕ Remove</button>
+                    </div>
+                </div>
+                <input type="hidden" id="i-photo">
+            </div>
+        </div>
+        <div class="m-actions">
+            <button class="btn-modal-cancel" id="btn-cancel-item">Cancel</button>
+            <button class="btn-modal-save"   id="btn-save-item">Save Item</button>
+        </div>
+    </div>
+</div>
+
+<!-- Order Receipt Modal -->
+<div class="modal-ov" id="order-modal">
+    <div class="receipt-box">
+        <div id="receipt"></div>
+        <div style="text-align:center;margin-top:14px;">
+            <button class="btn-modal-save" id="btn-close-receipt">✅ Done</button>
+        </div>
+    </div>
+</div>
+
+<!-- Mobile order panel overlay -->
+<div id="op-overlay" onclick="closeMobPanel()"></div>
+
+<!-- Mobile floating cart button -->
+<button class="mob-order-btn" id="mob-order-btn" onclick="toggleMobPanel()">
+    🛒 Order <span class="mob-cart-count" id="mob-cart-count">0</span>
+</button>
 
 
 <script src="assets/lib/jquery-4.0.0.min.js"></script>
