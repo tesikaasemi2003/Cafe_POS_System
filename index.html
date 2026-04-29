@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -63,8 +63,9 @@
 
 <!---------App Body---------->
 <main>
+
     <div class="app-body">
-        <!-------Page1: NEW ORDER-------->
+                 <!-------Page1: NEW ORDER-------->
         <section id="page-order" class="page active">
             <div class="menu-area">
                 <!--------category Tabs---------->
@@ -79,22 +80,21 @@
                         <img src="assets/images/main%20page/coffee_avatar.png" alt="coffee avatar">
                     </div>
                     <input class="search-box" id="menuSearch" type="text" placeholder="search items...">
+
                 </div>
+
+
+                 <!-- Category banner -->
+              <div class="cat-banner all" id="cat-banner">
+                    <span class="cat-banner-name" id="cat-banner-name"> All Items</span>
+              </div>
+
+                <!-- Item grid -->
+             <div class="item-grid-wrap">
+                 <div class="item-grid" id="menu-grid"></div>
+             </div>
             </div>
-        </section>
-
-        <!-- Category banner -->
-        <div class="cat-banner all" id="cat-banner">
-            <span class="cat-banner-name" id="cat-banner-name"> All Items</span>
-        </div>
-
-        <!-- Item grid -->
-        <div class="item-grid-wrap">
-            <div class="item-grid" id="menu-grid"></div>
-        </div>
-
-
-    <!-- Right: Side Order Bar (yellow panel) -->
+                <!-- Right: Side Order Bar (yellow panel) -->
     <div id="order-panel">
         <div class="op-head">
             <div class="op-title"> Current Order</div>
@@ -125,7 +125,19 @@
             <button id="btn-clear-order">Clear Order</button>
         </div>
     </div>
+
+    </section>
     </div>
+
+    <!-- ============= PAGE: DASHBOARD ============= -->
+    <section id="page-dash" class="page">
+        <div class="mgmt-wrap">
+            <div class="pg-head">
+                <div>
+                    <div class="pg-title">📊 Dashboard</div>
+                    <div class="pg-sub">Today's overview</div>
+                </div>
+            </div>
 </main>
 
 
