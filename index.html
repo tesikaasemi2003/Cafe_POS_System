@@ -244,6 +244,46 @@
 </div>
 
 
+<!----------------------Models--------------------------->
+
+<!-- Customer Modal -->
+<div class="modal-ov" id="cust-modal">
+    <div class="modal-box">
+        <div class="m-title">
+            <div class="m-icon">👥</div>
+            <span id="cust-modal-title">Add Customer</span>
+        </div>
+        <input type="hidden" id="c-id">
+        <div class="f-g">
+            <label class="f-l">Full Name *</label>
+            <input class="f-i" id="c-name" type="text" placeholder="e.g. Nimal Perera">
+            <div class="f-err" id="c-name-e">Valid name required (letters only, min 2 chars).</div>
+        </div>
+        <div class="m-row">
+            <div class="f-g">
+                <label class="f-l">Phone *</label>
+                <input class="f-i" id="c-phone" type="text" placeholder="07X XXXXXXX">
+                <div class="f-err" id="c-phone-e">Valid Sri Lankan phone required.</div>
+            </div>
+            <div class="f-g">
+                <label class="f-l">Email (optional)</label>
+                <input class="f-i" id="c-email" type="email" placeholder="email@example.com">
+                <div class="f-err" id="c-email-e">Invalid email format.</div>
+            </div>
+        </div>
+        <div class="f-g">
+            <label class="f-l">Address</label>
+            <input class="f-i" id="c-addr" type="text" placeholder="Street, City">
+        </div>
+        <div class="m-actions">
+            <button class="btn-modal-cancel" id="btn-cancel-cust">Cancel</button>
+            <button class="btn-modal-save"   id="btn-save-cust">Save Customer</button>
+        </div>
+    </div>
+</div>
+
+
+
 <script src="assets/lib/jquery-4.0.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
