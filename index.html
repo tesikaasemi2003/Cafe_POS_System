@@ -65,7 +65,7 @@
 <main>
     <div class="app-body">
         <!-------Page1: NEW ORDER-------->
-        <div id="page-order" class="page active">
+        <section id="page-order" class="page active">
             <div class="menu-area">
                 <!--------category Tabs---------->
                 <div class="cat-tabs"></div>
@@ -81,7 +81,7 @@
                     <input class="search-box" id="menuSearch" type="text" placeholder="search items...">
                 </div>
             </div>
-        </div>
+        </section>
 
         <!-- Category banner -->
         <div class="cat-banner all" id="cat-banner">
@@ -92,7 +92,7 @@
         <div class="item-grid-wrap">
             <div class="item-grid" id="menu-grid"></div>
         </div>
-    </div>
+
 
     <!-- Right: Side Order Bar (yellow panel) -->
     <div id="order-panel">
@@ -108,9 +108,24 @@
                 <span>No items added yet</span>
             </div>
         </div>
+
+        <!-- Totals -->
+        <div class="op-totals">
+            <div class="op-tot-row"><span>Subtotal</span><span id="op-sub">Rs. 0.00</span></div>
+            <div class="op-tot-row"><span>Tax (10%)</span><span id="op-tax">Rs. 0.00</span></div>
+            <div class="op-grand">
+                <span class="op-grand-label">TOTAL</span>
+                <span class="op-grand-val" id="op-grand">Rs. 0.00</span>
+            </div>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="op-acts">
+            <button id="btn-place-order">Place Order</button>
+            <button id="btn-clear-order">Clear Order</button>
+        </div>
     </div>
-
-
+    </div>
 </main>
 
 
