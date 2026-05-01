@@ -1,16 +1,6 @@
-/* =========================================================
-   T&T Cafe POS System — style.css
-   Faithful to Figma: warm brown navbar, yellow order panel,
-   cream background, red CTAs, Playfair Display headings
-   ========================================================= */
-
-/* ── Google Font fallback (already linked in HTML) ──────── */
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Petit+Formal+Script&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap');
-
-/* ── CSS Custom Properties ─────────────────────────────── */
 :root {
     /* Brand palette */
-    --brown-dark   : #3b1f0e;   /* navbar / login card bg  */
+    --brown-dark   : #3b1f0e;
     --brown-mid    : #5c3317;
     --brown-light  : #7a4f2d;
     --gold         : #c89240;
@@ -18,7 +8,7 @@
     --cream        : #f5e9d5;
     --cream-light  : #fdf7ee;
     --cream-mid    : #f0e0c0;
-    --yellow-panel : #f5f542;   /* right order panel exact */
+    --yellow-panel : #f5f542;
     --yellow-dark  : #d9d900;
     --red          : #e53e3e;
     --red-dark     : #c53030;
@@ -44,7 +34,7 @@
     --shadow-panel : -4px 0 24px rgba(60,20,0,.12);
 }
 
-/* ── Reset ─────────────────────────────────────────────── */
+/* ── Reset ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
@@ -55,9 +45,8 @@ html, body {
     overflow: hidden;
 }
 
-/* ══════════════════════════════════════════════════════════
-   LOGIN PAGE
-   ══════════════════════════════════════════════════════════ */
+
+   /*LOGIN PAGE*/
 #loginPage {
     position: fixed; inset: 0;
     display: flex; align-items: center; justify-content: center;
@@ -195,19 +184,15 @@ html, body {
 }
 .btn-signin:active { transform: translateY(0); }
 
-/* ══════════════════════════════════════════════════════════
-   MAIN APP WRAPPER
-   ══════════════════════════════════════════════════════════ */
+   /*--------MAIN APP WRAPPER-------------*/
 #main-app {
-    display: none;           /* shown by JS on login */
+    display: none;
     height: 100vh;
     flex-direction: column;
 }
 
-/* ══════════════════════════════════════════════════════════
-   NAVBAR  (top bar — brown with gold border)
-   ══════════════════════════════════════════════════════════ */
-header nav.nav.bar {            /* matches HTML class="nav bar" */
+/* NAVBAR   */
+header nav.nav.bar {
     height: var(--nav-h);
     background: var(--brown-dark);
     border-bottom: 2.5px solid var(--gold);
@@ -282,9 +267,7 @@ header nav.nav.bar > div:nth-child(2) {
 }
 .btn-signout:hover { background: var(--red-dark); transform: translateY(-1px); }
 
-/* ══════════════════════════════════════════════════════════
-   LAYOUT SHELL
-   ══════════════════════════════════════════════════════════ */
+
 main {
     display: flex; flex-direction: column;
     height: 100vh;
@@ -297,9 +280,7 @@ main {
     display: flex; flex: 1; overflow: hidden;
 }
 
-/* ══════════════════════════════════════════════════════════
-   PAGES / SECTIONS
-   ══════════════════════════════════════════════════════════ */
+/*-----PAGES / SECTIONS------*/
 .page { display: none; flex: 1; flex-direction: column; overflow: hidden; }
 .page.active { display: flex; }
 
@@ -333,16 +314,14 @@ main {
 }
 .bn-icon { font-size: 22px; line-height: 1; }
 
-/* ══════════════════════════════════════════════════════════
-   NEW ORDER PAGE  — left menu area
-   ══════════════════════════════════════════════════════════ */
+   /*---------NEW ORDER PAGE  ------*/
 .menu-area {
     flex: 1; display: flex; flex-direction: column;
     overflow: hidden;
     background: var(--cream-light);
 }
 
-/* ── Category tabs row ──────────────────────────────────── */
+/* ── Category tabs row ──*/
 .cat-tabs {
     display: flex; gap: 7px;
     padding: 10px 16px;
@@ -377,14 +356,14 @@ main {
 .cat-tab.t-meals.active        { background: #9f7aea; }
 .cat-tab.t-dessert.active      { background: #ed64a6; }
 
-/* ── Welcome + search row ───────────────────────────────── */
+/* ── Welcome + search row ── */
 .menu-top {
     display: flex; align-items: center;
     gap: 12px; padding: 12px 16px;
     flex-shrink: 0;
 }
 
-/* Welcome box — dark brown card with text */
+/* Welcome box */
 .welcome-box {
     background: var(--brown-dark);
     border-radius: 14px;
@@ -394,7 +373,7 @@ main {
     position: relative;
     overflow: hidden;
 }
-.welcome-box::after {           /* subtle shimmer edge */
+.welcome-box::after {
     content: '';
     position: absolute; inset: 0;
     background: linear-gradient(135deg, rgba(200,146,64,.12) 0%, transparent 60%);
@@ -410,7 +389,7 @@ main {
     margin-top: 2px; opacity: .85;
 }
 
-/* Coffee sticker / mascot image next to welcome */
+/* Coffee sticker  */
 .welcome.sticker {
     width: 54px; height: 54px;
     flex-shrink: 0;
@@ -440,7 +419,7 @@ main {
 }
 .search-box::placeholder { color: #b0a090; }
 
-/* ── Category banner ────────────────────────────────────── */
+/* ── Category banner ── */
 .cat-banner {
     margin: 0 16px 10px;
     border-radius: 12px;
@@ -462,7 +441,7 @@ main {
     color: var(--white);
 }
 
-/* ── Item grid ──────────────────────────────────────────── */
+/* ── Item grid ── */
 .item-grid-wrap {
     flex: 1; overflow-y: auto;
     padding: 0 16px 14px;
@@ -480,7 +459,7 @@ main {
     gap: 12px;
 }
 
-/* ── Food card ──────────────────────────────────────────── */
+/* ── Food card----------- */
 .item-card {
     background: var(--white);
     border: 1.5px solid rgba(212,168,85,.22);
@@ -548,9 +527,7 @@ main {
 }
 .item-card.in-order .item-qty-badge { display: flex; }
 
-/* ══════════════════════════════════════════════════════════
-   RIGHT ORDER PANEL  (yellow)
-   ══════════════════════════════════════════════════════════ */
+
 #order-panel {
     width: var(--panel-w);
     background: var(--yellow-panel);
@@ -721,9 +698,8 @@ main {
 }
 #btn-clear-order:hover { border-color: var(--red); color: var(--red); }
 
-/* ══════════════════════════════════════════════════════════
-   MANAGEMENT PAGES  (Dashboard / Customers / Menu / History)
-   ══════════════════════════════════════════════════════════ */
+  /*===== MANAGEMENT PAGES  (Dashboard / Customers / Menu / History)===*/
+
 .mgmt-wrap {
     flex: 1; overflow-y: auto;
     padding: 22px 24px;
@@ -995,9 +971,7 @@ main {
     animation: modalIn .22s ease;
 }
 
-/* ══════════════════════════════════════════════════════════
-   MOBILE  ORDER OVERLAY + FAB
-   ══════════════════════════════════════════════════════════ */
+ /* ===  MOBILE  ORDER OVERLAY + FAB=== */
 #op-overlay {
     display: none; position: fixed; inset: 0;
     background: rgba(20,8,0,.45);
@@ -1005,11 +979,10 @@ main {
 }
 #op-overlay.show { display: block; }
 
-.mob-order-btn { display: none; }   /* hidden on desktop */
+.mob-order-btn { display: none; }
 
-/* ══════════════════════════════════════════════════════════
-   RESPONSIVE — MOBILE  (≤ 768 px)
-   ══════════════════════════════════════════════════════════ */
+/*--------responsive-----------*/
+
 @media (max-width: 768px) {
     #order-panel {
         display: none;
