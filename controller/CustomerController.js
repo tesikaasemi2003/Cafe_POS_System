@@ -119,3 +119,38 @@ $('#btn-save-cust').on('click', () => {
     renderCustomerTable();
     loadCustomerDropdown();
 });
+
+// ------------------------ Delete Customer -------------------------------------
+window.confirmDeleteCustomer = (id) => {
+    const c = getCustomerById(id);
+    if (!c) return;
+    Swal.fire({
+        title: `Delete "${c.name}"?`,
+        text: 'This cannot be undone.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#e53e3e',
+        confirmButtonText: 'Delete'
+    }).then(r => {
+        if (r.isConfirmed) {
+            deleteCustomerData(id);
+            Swal.fire({ icon: 'success', title: 'Customer deleted!' });
+            renderCustomerTable();
+            loadCustomerDropdown();
+        }
+    });
+};
+
+// ------------------------ Cancel Modal ----------------------------------------
+$('#btn-cancel-cust').on('click', () => $('#cust-modal').removeClass('show'));
+
+// ------------------------ Search Input ----------------------------------------
+$('#cust-search').on('input', renderCustomerTable);
+
+// ------------------------ Helpers ---------------------------------------------
+const clearCustomerModal = () => {
+    ['#c-name', '#c-phone', '#c-email', '#c-addr'].forEach(id => $(id).val('').removeClass('invalid'));
+    ['#c-name-e', '#c-phone-e', '#c-email-e'].forEach(id => $(id).hide());
+};
+
+export { renderCustomerTable };
