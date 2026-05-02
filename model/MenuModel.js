@@ -43,3 +43,11 @@ class MenuItem {
     set photo(photo)       { this.#photo = photo; }
     set active(active)     { this.#active = active; }
 }
+
+// --------------------------- Add Menu Item ---------------------------
+const addMenuItemData = (code, name, category, price, stock, icon, photo) => {
+    const new_item = new MenuItem(db.menu_id_counter++, code, name, category, price, stock, icon, photo);
+    menu_db.push(new_item);
+    return new_item;
+};
+
