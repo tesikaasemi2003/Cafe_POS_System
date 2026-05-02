@@ -1,5 +1,3 @@
-// ========================= T&T Cafe POS - Dashboard Controller =========================
-// Handles: stats cards, recent orders list, top items summary
 import { getOrdersToday, getRevenueToday, getUniqueCustomersToday, getOrderData } from '../model/OrderModel.js';
 import { getMenuItemData } from '../model/MenuModel.js';
 
