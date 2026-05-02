@@ -65,3 +65,9 @@ const updateMenuItemData = (id, code, name, category, price, stock, icon, photo)
     }
     return obj;
 };
+
+// --------------------------- Delete Menu Item ---------------------------
+const deleteMenuItemData = (id) => {
+    const index = menu_db.findIndex(item => item.id === id);
+    if (index !== -1) menu_db.splice(index, 1);
+};
