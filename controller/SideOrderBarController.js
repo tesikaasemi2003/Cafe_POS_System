@@ -1,7 +1,8 @@
+// ========================= T&T Cafe POS - Side Order Bar Controller =========================
 import { getCustomerData } from '../model/CustomerModel.js';
 import { TAX_RATE } from '../model/OrderModel.js';
+import { popTotal, popCartBadge } from '../utils/animations.js';
 
-// Shared order state (imported by NewOrderController too)
 let orderItems = [];
 
 // ------------------------ Populate Customer Dropdown --------------------------
@@ -43,10 +44,10 @@ const renderOrderPanel = () => {
                 </div>
                 <div class="op-qty-wrap">
                     <button class="op-qbtn" onclick="changeQty(${row.itemId}, -1)">−</button>
-                    <span class="op-qnum">${row.qty}</span>
+                    <span class="op-qnum" id="qnum-${row.itemId}">${row.qty}</span>
                     <button class="op-qbtn" onclick="changeQty(${row.itemId}, 1)">+</button>
                 </div>
-                <div class="op-row-price">Rs. ${(row.unitPrice * row.qty).toFixed(2)}</div>
+                <div class="op-row-price" id="oprice-${row.itemId}">Rs. ${(row.unitPrice * row.qty).toFixed(2)}</div>
                 <button class="op-rmv" onclick="removeOrderItem(${row.itemId})">✕</button>
             </div>`);
     });
@@ -64,14 +65,13 @@ const updateOrderTotals = () => {
     $('#op-tax').text(`Rs. ${tax.toFixed(2)}`);
     $('#op-grand').text(`Rs. ${total.toFixed(2)}`);
 
-    // Mobile cart badge
     const totalQty = orderItems.reduce((sum, r) => sum + r.qty, 0);
     $('#mob-cart-count').text(totalQty);
 
     updateOrderSubtitle();
+    popTotal(); // animate total on every change
 };
 
-// ------------------------ Order Panel Subtitle --------------------------------
 const updateOrderSubtitle = () => {
     const count = orderItems.reduce((sum, r) => sum + r.qty, 0);
     $('#op-sub-title').text(count === 0 ? 'Select items to begin' : `${count} item${count > 1 ? 's' : ''} in order`);
@@ -91,19 +91,53 @@ const addOrderItem = (item) => {
     renderOrderPanel();
 };
 
-// ------------------------ Change Qty -----------------------------------------
+// ------------------------ Change Qty (with animation) -------------------------
 window.changeQty = (itemId, delta) => {
     const row = orderItems.find(r => r.itemId === itemId);
     if (!row) return;
     row.qty += delta;
-    if (row.qty <= 0) orderItems = orderItems.filter(r => r.itemId !== itemId);
-    renderOrderPanel();
+    if (row.qty <= 0) {
+        // Animate row out then re-render
+        const rowEl = document.querySelector(`.op-row[data-item-id="${itemId}"]`);
+        if (rowEl) {
+            rowEl.classList.add('removing');
+            rowEl.addEventListener('animationend', () => {
+                orderItems = orderItems.filter(r => r.itemId !== itemId);
+                renderOrderPanel();
+            }, { once: true });
+        } else {
+            orderItems = orderItems.filter(r => r.itemId !== itemId);
+            renderOrderPanel();
+        }
+        return;
+    }
+    // Update qty number in place (no full re-render = smoother)
+    const qEl = document.getElementById(`qnum-${itemId}`);
+    const pEl = document.getElementById(`oprice-${itemId}`);
+    if (qEl) {
+        qEl.textContent = row.qty;
+        qEl.classList.remove('qty-flash');
+        void qEl.offsetWidth;
+        qEl.classList.add('qty-flash');
+    }
+    if (pEl) pEl.textContent = `Rs. ${(row.unitPrice * row.qty).toFixed(2)}`;
+    updateOrderTotals();
+    popCartBadge();
 };
 
-// ------------------------ Remove Item ----------------------------------------
+// ------------------------ Remove Item (with slide-out) -----------------------
 window.removeOrderItem = (itemId) => {
-    orderItems = orderItems.filter(r => r.itemId !== itemId);
-    renderOrderPanel();
+    const rowEl = document.querySelector(`.op-row[data-item-id="${itemId}"]`);
+    if (rowEl) {
+        rowEl.classList.add('removing');
+        rowEl.addEventListener('animationend', () => {
+            orderItems = orderItems.filter(r => r.itemId !== itemId);
+            renderOrderPanel();
+        }, { once: true });
+    } else {
+        orderItems = orderItems.filter(r => r.itemId !== itemId);
+        renderOrderPanel();
+    }
 };
 
 // ------------------------ Clear Order ----------------------------------------
@@ -113,9 +147,9 @@ const clearOrder = () => {
     renderOrderPanel();
 };
 
-// ------------------------ Get Current Order State ----------------------------
-const getOrderItems  = () => orderItems;
-const getOrderTotal  = () => {
+// ------------------------ Getters --------------------------------------------
+const getOrderItems = () => orderItems;
+const getOrderTotal = () => {
     const subtotal = orderItems.reduce((sum, r) => sum + r.unitPrice * r.qty, 0);
     return { subtotal, tax: subtotal * TAX_RATE, total: subtotal + subtotal * TAX_RATE };
 };
@@ -125,7 +159,6 @@ window.toggleMobPanel = () => {
     $('#order-panel').toggleClass('mob-open');
     $('#op-overlay').toggleClass('show');
 };
-
 window.closeMobPanel = () => {
     $('#order-panel').removeClass('mob-open');
     $('#op-overlay').removeClass('show');

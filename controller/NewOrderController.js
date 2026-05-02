@@ -1,7 +1,9 @@
-import { getMenuItemData, getMenuItemsByCategory, reduceStock } from 'model/MenuModel.js';
-import { getCustomerById, updateLoyaltyAfterOrder } from 'model/CustomerModel.js';
-import { placeOrderData } from 'model/OrderModel.js';
-import { addOrderItem, clearOrder, getOrderItems, getOrderTotal, renderOrderPanel, loadCustomerDropdown } from 'SideOrderBarController.js';
+// Handles: menu grid, category tabs, search, place order
+import { getMenuItemData, getMenuItemsByCategory, reduceStock } from '../model/MenuModel.js';
+import { getCustomerById, updateLoyaltyAfterOrder } from '../model/CustomerModel.js';
+import { placeOrderData } from '../model/OrderModel.js';
+import { addOrderItem, clearOrder, getOrderItems, getOrderTotal, renderOrderPanel, loadCustomerDropdown } from './SideOrderBarController.js';
+import { flyToCart, rippleCard, popBadge, popCartBadge, placeOrderLoading, showThankYou } from '../utils/animations.js';
 
 const CATEGORIES = ['All', 'Hot Drinks', 'Cold Drinks', 'Bakery', 'Sandwiches', 'Light Meals', 'Desserts'];
 const CAT_META = {
@@ -21,12 +23,11 @@ const renderCategoryTabs = () => {
     const $tabs = $('#cat-tabs');
     $tabs.empty();
     CATEGORIES.forEach(cat => {
-        const meta = CAT_META[cat];
+        const meta   = CAT_META[cat];
         const active = cat === currentCategory ? 'active' : '';
         $tabs.append(`<div class="cat-tab t-${meta.cls} ${active}" data-cat="${cat}">${meta.emoji} ${cat}</div>`);
     });
 
-    // Tab click
     $tabs.off('click', '.cat-tab').on('click', '.cat-tab', function () {
         currentCategory = $(this).data('cat');
         renderCategoryTabs();
@@ -36,12 +37,11 @@ const renderCategoryTabs = () => {
 
 // ------------------------ Render Menu Grid ------------------------------------
 const renderMenuGrid = () => {
-    const $grid   = $('#menu-grid');
-    const search  = $('#menu-search').val().toLowerCase().trim();
-    const meta    = CAT_META[currentCategory];
+    const $grid  = $('#menu-grid');
+    const search = $('#menu-search').val().toLowerCase().trim();
+    const meta   = CAT_META[currentCategory];
     const orderItems = getOrderItems();
 
-    // Banner
     $('#cat-banner').attr('class', `cat-banner ${meta.cls}`);
     $('#cat-banner-name').text(`${meta.emoji} ${meta.label}`);
 
@@ -61,16 +61,16 @@ const renderMenuGrid = () => {
     }
 
     items.forEach(item => {
-        const inOrder = orderItems.find(r => r.itemId === item.id);
-        const qty     = inOrder ? inOrder.qty : 0;
+        const inOrder  = orderItems.find(r => r.itemId === item.id);
+        const qty      = inOrder ? inOrder.qty : 0;
         const outStock = item.stock === 0;
-        const img = item.photo
+        const img      = item.photo
             ? `<img class="item-photo" src="${item.photo}" alt="${item.name}">`
             : `<div class="item-photo-ph">${item.icon}</div>`;
 
         $grid.append(`
             <div class="item-card ${inOrder ? 'in-order' : ''} ${outStock ? 'out-stock' : ''}"
-                 data-item-id="${item.id}">
+                 data-item-id="${item.id}" data-item-icon="${item.icon}">
                 ${img}
                 <div class="item-qty-badge" style="${qty > 0 ? 'display:flex' : 'display:none'}">${qty}</div>
                 <div class="item-code">${item.code}</div>
@@ -79,14 +79,25 @@ const renderMenuGrid = () => {
             </div>`);
     });
 
-    // Item card click
+    // Item card click with animations
     $grid.off('click', '.item-card').on('click', '.item-card', function () {
-        const id = parseInt($(this).data('item-id'));
+        const id        = parseInt($(this).data('item-id'));
+        const itemIcon  = $(this).data('item-icon') || '☕';
         const items_all = getMenuItemData();
-        const item = items_all.find(i => i.id === id);
+        const item      = items_all.find(i => i.id === id);
         if (!item || item.stock === 0) return;
+
+        rippleCard(this);
+        flyToCart(this, item.icon || itemIcon);
+        popCartBadge();
+
         addOrderItem(item);
-        renderMenuGrid(); // refresh badges
+        renderMenuGrid();
+
+        setTimeout(() => {
+            const updatedCard = $grid.find(`[data-item-id="${id}"] .item-qty-badge`)[0];
+            if (updatedCard) popBadge(updatedCard);
+        }, 50);
     });
 };
 
@@ -116,22 +127,20 @@ $('#btn-place-order').on('click', () => {
     }).then(result => {
         if (!result.isConfirmed) return;
 
-        // Reduce stock
-        orderItems.forEach(row => reduceStock(row.itemId, row.qty));
+        placeOrderLoading(true);
 
-        // Save order
-        const saved = placeOrderData(customerId, customerName, orderItems);
+        setTimeout(() => {
+            orderItems.forEach(row => reduceStock(row.itemId, row.qty));
+            const saved = placeOrderData(customerId, customerName, orderItems);
+            if (customer) updateLoyaltyAfterOrder(customerId, total);
 
-        // Update loyalty
-        if (customer) updateLoyaltyAfterOrder(customerId, total);
+            placeOrderLoading(false);
+            clearOrder();
+            renderMenuGrid();
+            loadCustomerDropdown();
 
-        // Show receipt
-        showReceipt(saved);
-
-        // Clear order
-        clearOrder();
-        renderMenuGrid();
-        loadCustomerDropdown();
+            showThankYou(saved);
+        }, 650);
     });
 });
 
@@ -151,42 +160,6 @@ $('#btn-clear-order').on('click', () => {
         }
     });
 });
-
-// ------------------------ Receipt Modal ---------------------------------------
-const showReceipt = (order) => {
-    const rows = order.items.map(i =>
-        `<tr><td>${i.icon} ${i.name}</td><td style="text-align:center">${i.qty}</td><td style="text-align:right">Rs. ${(i.unitPrice * i.qty).toFixed(2)}</td></tr>`
-    ).join('');
-
-    $('#receipt').html(`
-        <div style="text-align:center;margin-bottom:12px">
-            <div style="font-size:22px">☕</div>
-            <div style="font-weight:800;font-size:16px;font-family:'Playfair Display',serif">T&T Cafe</div>
-            <div style="font-size:11px;color:#8a6a4a">Order #${order.id} · ${new Date(order.createdAt).toLocaleString()}</div>
-            <div style="font-size:12px;color:#4a2c1a;margin-top:4px">${order.customerName}</div>
-        </div>
-        <table style="width:100%;font-size:12px;border-collapse:collapse">
-            <thead><tr style="border-bottom:1px dashed #d4a855">
-                <th style="text-align:left;padding:4px 0">Item</th>
-                <th style="text-align:center">Qty</th>
-                <th style="text-align:right">Total</th>
-            </tr></thead>
-            <tbody>${rows}</tbody>
-        </table>
-        <div style="border-top:1px dashed #d4a855;margin-top:10px;padding-top:8px;font-size:12px">
-            <div style="display:flex;justify-content:space-between"><span>Subtotal</span><span>Rs. ${order.subtotal.toFixed(2)}</span></div>
-            <div style="display:flex;justify-content:space-between"><span>Tax (10%)</span><span>Rs. ${order.tax.toFixed(2)}</span></div>
-            <div style="display:flex;justify-content:space-between;font-weight:800;font-size:15px;margin-top:6px;color:#e53e3e">
-                <span>TOTAL</span><span>Rs. ${order.total.toFixed(2)}</span>
-            </div>
-        </div>
-        <div style="text-align:center;margin-top:14px;font-size:11px;color:#8a6a4a;font-style:italic">Thank you for visiting T&T Cafe! ☕</div>
-    `);
-
-    $('#order-modal').addClass('show');
-};
-
-$('#btn-close-receipt').on('click', () => $('#order-modal').removeClass('show'));
 
 // ------------------------ Init New Order Page ---------------------------------
 const initNewOrderPage = () => {

@@ -1,3 +1,6 @@
+
+// Handles: top bar branding, user display, sign-out
+
 // ------------------------ Show Logged-In User in Top Bar -------------------------
 const loadNavbarUser = (username) => {
     const initials = username.substring(0, 2).toUpperCase();
