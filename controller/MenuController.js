@@ -155,3 +155,20 @@ $('#i-photo-file').on('change', function () {
     };
     reader.readAsDataURL(file);
 });
+
+// ------------------------ Cancel Modal ----------------------------------------
+$('#btn-cancel-item').on('click', () => $('#item-modal').removeClass('show'));
+
+// ------------------------ Search ----------------------------------------------
+$('#item-search').on('input', renderMenuTable);
+
+// ------------------------ Helpers ---------------------------------------------
+const clearItemModal = () => {
+    ['#i-code', '#i-name', '#i-price', '#i-qty', '#i-icon'].forEach(id => $(id).val(''));
+    ['#i-code-e', '#i-cat-e', '#i-name-e', '#i-price-e', '#i-qty-e'].forEach(id => $(id).hide());
+    $('#i-photo').val('');
+    $('#photo-preview').html('<span style="font-size:28px;opacity:.4">📷</span>');
+    $('#btn-remove-photo').hide();
+};
+
+export { renderMenuTable };
