@@ -143,3 +143,15 @@ window.confirmDeleteMenuItem = (id) => {
         }
     });
 };
+
+// ------------------------ Photo Upload ----------------------------------------
+$('#i-photo-file').on('change', function () {
+    const file = this.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        setPhotoPreview(e.target.result);
+        $('#i-photo').val(e.target.result);
+    };
+    reader.readAsDataURL(file);
+});
