@@ -1,3 +1,5 @@
+// ========================= T&T Cafe POS - Customer Controller =========================
+// Handles: customer table, add/edit/delete modal, search
 import {
     addCustomerData, updateCustomerData, deleteCustomerData,
     getCustomerData, getCustomerById, getCustomerByPhone
@@ -19,7 +21,6 @@ const renderCustomerTable = () => {
             c.email.toLowerCase().includes(search)
         );
     }
-
 
     if (customers.length === 0) {
         $('#cust-empty').show();
@@ -52,8 +53,6 @@ $('#btn-new-cust').on('click', () => {
     $('#cust-modal').addClass('show');
 });
 
-
-
 // ------------------------ Open Edit Modal -------------------------------------
 window.openEditCustomer = (id) => {
     const c = getCustomerById(id);
@@ -67,7 +66,6 @@ window.openEditCustomer = (id) => {
     $('#c-addr').val(c.address);
     $('#cust-modal').addClass('show');
 };
-
 
 // ------------------------ Save / Update Customer ------------------------------
 $('#btn-save-cust').on('click', () => {
