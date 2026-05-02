@@ -72,3 +72,12 @@ const getCustomerById = (id) => customer_db.find(c => c.id === id);
 
 // --------------------------- Get Customer by Phone ---------------------------
 const getCustomerByPhone = (phone) => customer_db.find(c => c.phone === phone);
+
+// --------------------------- Update Loyalty After Order ---------------------------
+const updateLoyaltyAfterOrder = (id, orderTotal) => {
+    const obj = customer_db.find(c => c.id === id);
+    if (obj) {
+        obj.totalSpent    += orderTotal;
+        obj.loyaltyPoints += Math.floor(orderTotal / 100); // 1 point per Rs.100
+    }
+};
