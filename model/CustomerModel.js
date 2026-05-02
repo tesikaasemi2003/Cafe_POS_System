@@ -69,3 +69,6 @@ const getCustomerData = () => customer_db;
 
 // --------------------------- Get Customer by ID ---------------------------
 const getCustomerById = (id) => customer_db.find(c => c.id === id);
+
+// --------------------------- Get Customer by Phone ---------------------------
+const getCustomerByPhone = (phone) => customer_db.find(c => c.phone === phone);
