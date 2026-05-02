@@ -45,3 +45,15 @@ const addCustomerData = (name, phone, email, address) => {
     customer_db.push(new_customer);
     return new_customer;
 };
+
+// --------------------------- Update Customer ---------------------------
+const updateCustomerData = (id, name, phone, email, address) => {
+    const obj = customer_db.find(c => c.id === id);
+    if (obj) {
+        obj.name    = name;
+        obj.phone   = phone;
+        obj.email   = email;
+        obj.address = address;
+    }
+    return obj;
+};
