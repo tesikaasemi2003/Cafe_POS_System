@@ -74,3 +74,15 @@ const deleteMenuItemData = (id) => {
 
 // --------------------------- Get All Menu Items ---------------------------
 const getMenuItemData = () => menu_db;
+
+// --------------------------- Get Menu Item by ID ---------------------------
+const getMenuItemById = (id) => menu_db.find(item => item.id === id);
+
+// --------------------------- Get Menu Item by Code ---------------------------
+const getMenuItemByCode = (code) => menu_db.find(item => item.code === code);
+
+// --------------------------- Get Items by Category ---------------------------
+const getMenuItemsByCategory = (category) => {
+    if (category === 'All') return menu_db;
+    return menu_db.filter(item => item.category === category);
+};
