@@ -86,3 +86,19 @@ const getMenuItemsByCategory = (category) => {
     if (category === 'All') return menu_db;
     return menu_db.filter(item => item.category === category);
 };
+
+// --------------------------- Reduce Stock on Order ---------------------------
+const reduceStock = (id, qty) => {
+    const obj = menu_db.find(item => item.id === id);
+    if (obj && obj.stock >= qty) {
+        obj.stock -= qty;
+        return true;
+    }
+    return false;
+};
+
+export {
+    addMenuItemData, updateMenuItemData, deleteMenuItemData,
+    getMenuItemData, getMenuItemById, getMenuItemByCode,
+    getMenuItemsByCategory, reduceStock
+};
