@@ -51,3 +51,17 @@ const addMenuItemData = (code, name, category, price, stock, icon, photo) => {
     return new_item;
 };
 
+// --------------------------- Update Menu Item ---------------------------
+const updateMenuItemData = (id, code, name, category, price, stock, icon, photo) => {
+    const obj = menu_db.find(item => item.id === id);
+    if (obj) {
+        obj.code     = code;
+        obj.name     = name;
+        obj.category = category;
+        obj.price    = price;
+        obj.stock    = stock;
+        obj.icon     = icon;
+        if (photo !== undefined) obj.photo = photo;
+    }
+    return obj;
+};
