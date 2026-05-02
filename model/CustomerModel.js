@@ -39,3 +39,9 @@ class Customer {
     set totalSpent(totalSpent)       { this.#totalSpent = totalSpent; }
 }
 
+// --------------------------- Add Customer ---------------------------
+const addCustomerData = (name, phone, email, address) => {
+    const new_customer = new Customer(db.customer_id_counter++, name, phone, email, address);
+    customer_db.push(new_customer);
+    return new_customer;
+};
