@@ -71,3 +71,6 @@ const deleteMenuItemData = (id) => {
     const index = menu_db.findIndex(item => item.id === id);
     if (index !== -1) menu_db.splice(index, 1);
 };
+
+// --------------------------- Get All Menu Items ---------------------------
+const getMenuItemData = () => menu_db;
