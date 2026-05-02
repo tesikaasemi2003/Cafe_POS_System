@@ -62,3 +62,84 @@ $('#btn-new-item').on('click', () => {
     $('#i-id').val('');
     $('#item-modal').addClass('show');
 });
+
+// ------------------------ Open Edit Modal -------------------------------------
+window.openEditMenuItem = (id) => {
+    const item = getMenuItemById(id);
+    if (!item) return;
+    clearItemModal();
+    populateCatSelect();
+    $('#item-modal-title').text('Edit Menu Item');
+    $('#i-id').val(item.id);
+    $('#i-code').val(item.code);
+    $('#i-cat').val(item.category);
+    $('#i-name').val(item.name);
+    $('#i-price').val(item.price);
+    $('#i-qty').val(item.stock);
+    $('#i-icon').val(item.icon);
+    if (item.photo) setPhotoPreview(item.photo);
+    $('#item-modal').addClass('show');
+};
+
+// ------------------------ Save / Update Item ----------------------------------
+$('#btn-save-item').on('click', () => {
+    const code  = $('#i-code').val().trim().toUpperCase();
+    const cat   = $('#i-cat').val();
+    const name  = $('#i-name').val().trim();
+    const price = $('#i-price').val();
+    const qty   = $('#i-qty').val();
+    const icon  = $('#i-icon').val().trim() || '☕';
+    const photo = $('#i-photo').val() || null;
+    let valid   = true;
+
+    if (!check_item_code(code)) { $('#i-code-e').show(); valid = false; } else { $('#i-code-e').hide(); }
+    if (!cat)                   { $('#i-cat-e').show();  valid = false; } else { $('#i-cat-e').hide(); }
+    if (!check_name(name))      { $('#i-name-e').show(); valid = false; } else { $('#i-name-e').hide(); }
+    if (!check_price(price))    { $('#i-price-e').show();valid = false; } else { $('#i-price-e').hide(); }
+    if (!check_positive_int(qty)){ $('#i-qty-e').show(); valid = false; } else { $('#i-qty-e').hide(); }
+    if (!valid) return;
+
+    const editId = $('#i-id').val();
+
+    if (editId) {
+        const id  = parseInt(editId);
+        const dup = getMenuItemByCode(code);
+        if (dup && dup.id !== id) {
+            Swal.fire({ icon: 'error', title: 'Item code already exists!' });
+            return;
+        }
+        updateMenuItemData(id, code, name, cat, parseFloat(price), parseInt(qty), icon, photo);
+        Swal.fire({ icon: 'success', title: 'Menu item updated!' });
+    } else {
+        if (getMenuItemByCode(code)) {
+            Swal.fire({ icon: 'error', title: 'Item code already exists!' });
+            return;
+        }
+        addMenuItemData(code, name, cat, parseFloat(price), parseInt(qty), icon, photo);
+        Swal.fire({ icon: 'success', title: 'Menu item added!' });
+    }
+
+    $('#item-modal').removeClass('show');
+    renderMenuTable();
+    renderMenuGrid();   // sync order page grid
+});
+
+// ------------------------ Delete Item -----------------------------------------
+window.confirmDeleteMenuItem = (id) => {
+    const item = getMenuItemById(id);
+    if (!item) return;
+    Swal.fire({
+        title: `Delete "${item.name}"?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#e53e3e',
+        confirmButtonText: 'Delete'
+    }).then(r => {
+        if (r.isConfirmed) {
+            deleteMenuItemData(id);
+            Swal.fire({ icon: 'success', title: 'Item deleted!' });
+            renderMenuTable();
+            renderMenuGrid();
+        }
+    });
+};
