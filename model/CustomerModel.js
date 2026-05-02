@@ -66,3 +66,6 @@ const deleteCustomerData = (id) => {
 
 // --------------------------- Get All Customers ---------------------------
 const getCustomerData = () => customer_db;
+
+// --------------------------- Get Customer by ID ---------------------------
+const getCustomerById = (id) => customer_db.find(c => c.id === id);
