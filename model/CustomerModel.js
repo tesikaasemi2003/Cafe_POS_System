@@ -57,3 +57,12 @@ const updateCustomerData = (id, name, phone, email, address) => {
     }
     return obj;
 };
+
+// --------------------------- Delete Customer ---------------------------
+const deleteCustomerData = (id) => {
+    const index = customer_db.findIndex(c => c.id === id);
+    if (index !== -1) customer_db.splice(index, 1);
+};
+
+// --------------------------- Get All Customers ---------------------------
+const getCustomerData = () => customer_db;
