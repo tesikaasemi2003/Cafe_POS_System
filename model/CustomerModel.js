@@ -81,3 +81,8 @@ const updateLoyaltyAfterOrder = (id, orderTotal) => {
         obj.loyaltyPoints += Math.floor(orderTotal / 100); // 1 point per Rs.100
     }
 };
+
+export {
+    addCustomerData, updateCustomerData, deleteCustomerData,
+    getCustomerData, getCustomerById, getCustomerByPhone, updateLoyaltyAfterOrder
+};
