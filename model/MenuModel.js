@@ -47,7 +47,7 @@ class MenuItem {
 
 // --------------------------- Add Menu Item ---------------------------
 const addMenuItemData = (code, name, category, price, stock, icon, photo) => {
-    const new_item = new MenuItem(db.menu_id_counter++, code, name, category, price, stock, icon, photo);
+    const new_item = new MenuItem(db.menu_db.length +1, code, name, category, price, stock, icon, photo);
     menu_db.push(new_item);
     return new_item;
 };

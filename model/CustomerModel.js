@@ -42,7 +42,7 @@ class Customer {
 
 // --------------------------- Add Customer ---------------------------
 const addCustomerData = (name, phone, email, address) => {
-    const new_customer = new Customer(db.customer_id_counter++, name, phone, email, address);
+    const new_customer = new Customer(db.customer_db.length +1, name, phone, email, address);
     customer_db.push(new_customer);
     return new_customer;
 };
