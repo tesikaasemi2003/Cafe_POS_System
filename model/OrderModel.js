@@ -1,5 +1,6 @@
-import { order_db } from 'db/db.js';
-import * as db from 'db/db.js';
+// ========================= T&T Cafe POS - Order Model =========================
+import { order_db } from '../db/db.js';
+import * as db from '../db/db.js';
 
 const TAX_RATE = 0.10; // 10% tax
 

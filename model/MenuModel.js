@@ -1,5 +1,6 @@
-import { menu_db, menu_id_counter } from 'db/db.js';
-import * as db from 'db/db.js';
+// ========================= T&T Cafe POS - Menu Item Model =========================
+import { menu_db, menu_id_counter } from '../db/db.js';
+import * as db from '../db/db.js';
 
 class MenuItem {
     #id;
@@ -13,15 +14,15 @@ class MenuItem {
     #active;
 
     constructor(id, code, name, category, price, stock, icon = '☕', photo = null, active = true) {
-        this.#id = id;
-        this.#code = code;
-        this.#name = name;
+        this.#id       = id;
+        this.#code     = code;
+        this.#name     = name;
         this.#category = category;
-        this.#price = price;
-        this.#stock = stock;
-        this.#icon = icon;
-        this.#photo = photo;
-        this.#active = active;
+        this.#price    = price;
+        this.#stock    = stock;
+        this.#icon     = icon;
+        this.#photo    = photo;
+        this.#active   = active;
     }
 
     get id()       { return this.#id; }

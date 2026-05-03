@@ -1,9 +1,11 @@
+// ========================= T&T Cafe POS - Menu Controller =========================
+// Handles: menu items table, add/edit/delete modal, photo upload, search
 import {
     addMenuItemData, updateMenuItemData, deleteMenuItemData,
     getMenuItemData, getMenuItemById, getMenuItemByCode
-} from 'model/MenuModel.js';
-import { check_item_code, check_name, check_price, check_positive_int } from 'utils/regex_utils.js';
-import { renderMenuGrid } from 'NewOrderController.js';
+} from '../model/MenuModel.js';
+import { check_item_code, check_name, check_price, check_positive_int } from '../utils/regex_utils.js';
+import { renderMenuGrid } from './NewOrderController.js';
 
 const CATEGORIES = ['Hot Drinks', 'Cold Drinks', 'Bakery', 'Sandwiches', 'Light Meals', 'Desserts'];
 
@@ -21,6 +23,7 @@ const renderMenuTable = () => {
             i.category.toLowerCase().includes(search)
         );
     }
+
     if (items.length === 0) {
         $('#item-empty').show();
         return;
@@ -47,6 +50,7 @@ const renderMenuTable = () => {
             </tr>`);
     });
 };
+
 // ------------------------ Populate Category Select in Modal -------------------
 const populateCatSelect = () => {
     const $sel = $('#i-cat');
@@ -155,6 +159,17 @@ $('#i-photo-file').on('change', function () {
     };
     reader.readAsDataURL(file);
 });
+
+$('#btn-remove-photo').on('click', () => {
+    $('#i-photo').val('');
+    $('#photo-preview').html('<span style="font-size:28px;opacity:.4">📷</span>');
+    $('#btn-remove-photo').hide();
+});
+
+const setPhotoPreview = (url) => {
+    $('#photo-preview').html(`<img src="${url}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">`);
+    $('#btn-remove-photo').show();
+};
 
 // ------------------------ Cancel Modal ----------------------------------------
 $('#btn-cancel-item').on('click', () => $('#item-modal').removeClass('show'));

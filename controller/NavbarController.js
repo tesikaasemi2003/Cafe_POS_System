@@ -1,4 +1,4 @@
-
+// ========================= T&T Cafe POS - Navbar Controller =========================
 // Handles: top bar branding, user display, sign-out
 
 // ------------------------ Show Logged-In User in Top Bar -------------------------

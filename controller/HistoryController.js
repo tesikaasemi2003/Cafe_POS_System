@@ -1,6 +1,6 @@
 // ========================= T&T Cafe POS - History Controller =========================
 // Handles: order history list, order detail expand, search by customer/date
-import { getOrderData } from 'model/OrderModel.js';
+import { getOrderData } from '../model/OrderModel.js';
 
 // ------------------------ Render Order History --------------------------------
 const renderHistory = () => {

@@ -1,9 +1,10 @@
+// ========================= T&T Cafe POS - New Order Controller =========================
 // Handles: menu grid, category tabs, search, place order
-import { getMenuItemData, getMenuItemsByCategory, reduceStock } from 'model/MenuModel.js';
-import { getCustomerById, updateLoyaltyAfterOrder } from 'model/CustomerModel.js';
-import { placeOrderData } from 'model/OrderModel.js';
-import { addOrderItem, clearOrder, getOrderItems, getOrderTotal, renderOrderPanel, loadCustomerDropdown } from 'SideOrderBarController.js';
-import { flyToCart, rippleCard, popBadge, popCartBadge, placeOrderLoading, showThankYou } from 'utils/animations.js';
+import { getMenuItemData, getMenuItemsByCategory, reduceStock } from '../model/MenuModel.js';
+import { getCustomerById, updateLoyaltyAfterOrder } from '../model/CustomerModel.js';
+import { placeOrderData } from '../model/OrderModel.js';
+import { addOrderItem, clearOrder, getOrderItems, getOrderTotal, renderOrderPanel, loadCustomerDropdown } from './SideOrderBarController.js';
+import { flyToCart, rippleCard, popBadge, popCartBadge, placeOrderLoading, showThankYou } from '../utils/animations.js';
 
 const CATEGORIES = ['All', 'Hot Drinks', 'Cold Drinks', 'Bakery', 'Sandwiches', 'Light Meals', 'Desserts'];
 const CAT_META = {

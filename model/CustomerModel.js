@@ -1,5 +1,6 @@
-import { customer_db } from 'db/db.js';
-import * as db from 'db/db.js';
+// ========================= T&T Cafe POS - Customer Model =========================
+import { customer_db } from '../db/db.js';
+import * as db from '../db/db.js';
 
 class Customer {
     #id;
@@ -12,16 +13,16 @@ class Customer {
     #joinDate;
 
     constructor(id, name, phone, email = '', address = '', loyaltyPoints = 0, totalSpent = 0) {
-        this.#id = id;
-        this.#name = name;
-        this.#phone = phone;
-        this.#email = email;
-        this.#address = address;
+        this.#id            = id;
+        this.#name          = name;
+        this.#phone         = phone;
+        this.#email         = email;
+        this.#address       = address;
         this.#loyaltyPoints = loyaltyPoints;
-        this.#totalSpent = totalSpent;
-        this.#joinDate = new Date().toISOString();
-
+        this.#totalSpent    = totalSpent;
+        this.#joinDate      = new Date().toISOString();
     }
+
     get id()            { return this.#id; }
     get name()          { return this.#name; }
     get phone()         { return this.#phone; }
