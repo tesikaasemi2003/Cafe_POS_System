@@ -20,8 +20,8 @@ $('#btn-signout').on('click', function () {
         confirmButtonText: 'Yes, sign out'
     }).then(result => {
         if (result.isConfirmed) {
-            $('#mainApp').css('display', 'none');
-            $('#loginPage').css('display', 'flex');
+            $('#main-app').css('display', 'none');
+            $('#login-page').css('display', 'flex');
             $('#lu').val('');
             $('#lp').val('');
         }

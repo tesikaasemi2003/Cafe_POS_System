@@ -1,5 +1,4 @@
 // ========================= T&T Cafe POS - Order Model =========================
-import { order_db } from '../db/db.js';
 import * as db from '../db/db.js';
 
 const TAX_RATE = 0.10; // 10% tax
@@ -58,7 +57,7 @@ const placeOrderData = (customerId, customerName, items) => {
     const order_items = items.map(i =>
         new OrderItem(i.itemId, i.code, i.name, i.unitPrice, i.qty, i.icon, i.photo)
     );
-    const new_order = new Order(db.order_id_counter++, customerId, customerName, order_items);
+    const new_order = new Order(db.order_db.length +1, customerId, customerName, order_items);
     order_db.push(new_order);
     return new_order;
 };
