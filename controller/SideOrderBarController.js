@@ -1,7 +1,7 @@
 // ========================= T&T Cafe POS - Side Order Bar Controller =========================
-import { getCustomerData } from '../model/CustomerModel.js';
-import { TAX_RATE } from '../model/OrderModel.js';
-import { popTotal, popCartBadge } from '../utils/animations.js';
+import { getCustomerData } from 'model/CustomerModel.js';
+import { TAX_RATE } from 'model/OrderModel.js';
+import { popTotal, popCartBadge } from 'utils/animations.js';
 
 let orderItems = [];
 
