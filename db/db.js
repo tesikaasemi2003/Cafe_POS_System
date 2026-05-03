@@ -1,4 +1,3 @@
-
 // ------------------------ Menu Items DB ------------------------------
 let menu_db = [
     { id: 1, code: 'HOT001', name: 'Espresso',       category: 'Hot Drinks',  price: 350,  stock: 50, icon: '☕', photo: null, active: true },
