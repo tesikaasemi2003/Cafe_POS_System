@@ -1,5 +1,4 @@
 // ========================= T&T Cafe POS - New Order Controller =========================
-// Handles: menu grid, category tabs, search, place order
 import { getMenuItemData, getMenuItemsByCategory, reduceStock } from '../model/MenuModel.js';
 import { getCustomerById, updateLoyaltyAfterOrder } from '../model/CustomerModel.js';
 import { placeOrderData } from '../model/OrderModel.js';
@@ -8,13 +7,13 @@ import { flyToCart, rippleCard, popBadge, popCartBadge, placeOrderLoading, showT
 
 const CATEGORIES = ['All', 'Hot Drinks', 'Cold Drinks', 'Bakery', 'Sandwiches', 'Light Meals', 'Desserts'];
 const CAT_META = {
-    'All':          { cls: 'all',     label: 'All Items',    emoji: '🍵' },
-    'Hot Drinks':   { cls: 'hot',     label: 'Hot Drinks',   emoji: '☕' },
-    'Cold Drinks':  { cls: 'cold',    label: 'Cold Drinks',  emoji: '🥤' },
-    'Bakery':       { cls: 'bakery',  label: 'Bakery',       emoji: '🥐' },
-    'Sandwiches':   { cls: 'sand',    label: 'Sandwiches',   emoji: '🥪' },
-    'Light Meals':  { cls: 'meals',   label: 'Light Meals',  emoji: '🍛' },
-    'Desserts':     { cls: 'dessert', label: 'Desserts',     emoji: '🍰' },
+    'All':         { cls: 'all',     label: 'All Items',   emoji: '🍵' },
+    'Hot Drinks':  { cls: 'hot',     label: 'Hot Drinks',  emoji: '☕' },
+    'Cold Drinks': { cls: 'cold',    label: 'Cold Drinks', emoji: '🥤' },
+    'Bakery':      { cls: 'bakery',  label: 'Bakery',      emoji: '🥐' },
+    'Sandwiches':  { cls: 'sand',    label: 'Sandwiches',  emoji: '🥪' },
+    'Light Meals': { cls: 'meals',   label: 'Light Meals', emoji: '🍛' },
+    'Desserts':    { cls: 'dessert', label: 'Desserts',    emoji: '🍰' },
 };
 
 let currentCategory = 'All';
@@ -38,9 +37,9 @@ const renderCategoryTabs = () => {
 
 // ------------------------ Render Menu Grid ------------------------------------
 const renderMenuGrid = () => {
-    const $grid  = $('#menu-grid');
-    const search = $('#menu-search').val().toLowerCase().trim();
-    const meta   = CAT_META[currentCategory];
+    const $grid      = $('#menu-grid');
+    const search     = $('#menu-search').val().toLowerCase().trim();
+    const meta       = CAT_META[currentCategory];
     const orderItems = getOrderItems();
 
     $('#cat-banner').attr('class', `cat-banner ${meta.cls}`);
@@ -57,7 +56,7 @@ const renderMenuGrid = () => {
     $grid.empty();
 
     if (items.length === 0) {
-        $grid.html('<div style="grid-column:1/-1;text-align:center;padding:40px;color:#8a6a4a;font-size:13px;">No items found</div>');
+        $grid.html('<div class="no-items-msg">No items found 🔍</div>');
         return;
     }
 
@@ -65,27 +64,31 @@ const renderMenuGrid = () => {
         const inOrder  = orderItems.find(r => r.itemId === item.id);
         const qty      = inOrder ? inOrder.qty : 0;
         const outStock = item.stock === 0;
-        const img      = item.photo
-            ? `<img class="item-photo" src="${item.photo}" alt="${item.name}">`
-            : `<div class="item-photo-ph">${item.icon}</div>`;
+
+        // Photo or emoji placeholder — wrapped in item-img-wrap for zoom effect
+        const imgHtml = item.photo
+            ? `<div class="item-img-wrap"><img class="item-photo" src="${item.photo}" alt="${item.name}" loading="lazy"></div>`
+            : `<div class="item-img-wrap"><div class="item-photo-ph">${item.icon}</div></div>`;
 
         $grid.append(`
             <div class="item-card ${inOrder ? 'in-order' : ''} ${outStock ? 'out-stock' : ''}"
                  data-item-id="${item.id}" data-item-icon="${item.icon}">
-                ${img}
+                ${imgHtml}
                 <div class="item-qty-badge" style="${qty > 0 ? 'display:flex' : 'display:none'}">${qty}</div>
-                <div class="item-code">${item.code}</div>
-                <div class="item-name">${item.name}</div>
-                <div class="item-price">Rs. ${item.price.toFixed(2)}</div>
+                <div class="item-info">
+                    <div class="item-code">${item.code}</div>
+                    <div class="item-name">${item.name}</div>
+                    <div class="item-price">Rs. ${item.price.toFixed(2)}</div>
+                </div>
             </div>`);
     });
 
-    // Item card click with animations
+    // Item card click
     $grid.off('click', '.item-card').on('click', '.item-card', function () {
-        const id        = parseInt($(this).data('item-id'));
-        const itemIcon  = $(this).data('item-icon') || '☕';
-        const items_all = getMenuItemData();
-        const item      = items_all.find(i => i.id === id);
+        const id       = parseInt($(this).data('item-id'));
+        const itemIcon = $(this).data('item-icon') || '☕';
+        const allItems = getMenuItemData();
+        const item     = allItems.find(i => i.id === id);
         if (!item || item.stock === 0) return;
 
         rippleCard(this);
@@ -96,8 +99,8 @@ const renderMenuGrid = () => {
         renderMenuGrid();
 
         setTimeout(() => {
-            const updatedCard = $grid.find(`[data-item-id="${id}"] .item-qty-badge`)[0];
-            if (updatedCard) popBadge(updatedCard);
+            const badge = $grid.find(`[data-item-id="${id}"] .item-qty-badge`)[0];
+            if (badge) popBadge(badge);
         }, 50);
     });
 };
@@ -120,11 +123,11 @@ $('#btn-place-order').on('click', () => {
 
     Swal.fire({
         title: 'Confirm Order?',
-        html: `<b>${customerName}</b><br>${orderItems.length} item(s) — Rs. ${total.toFixed(2)}`,
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonColor: '#e53e3e',
-        confirmButtonText: 'Place Order'
+        html:  `<b>${customerName}</b><br>${orderItems.length} item(s) — Rs. ${total.toFixed(2)}`,
+        icon:  'question',
+        showCancelButton:    true,
+        confirmButtonColor:  '#e53e3e',
+        confirmButtonText:   'Place Order',
     }).then(result => {
         if (!result.isConfirmed) return;
 
@@ -133,7 +136,7 @@ $('#btn-place-order').on('click', () => {
         setTimeout(() => {
             orderItems.forEach(row => reduceStock(row.itemId, row.qty));
             const saved = placeOrderData(customerId, customerName, orderItems);
-            if (customer) updateLoyaltyAfterOrder(customerId, total);
+            if (customer && customer.id !== 1) updateLoyaltyAfterOrder(customerId, total);
 
             placeOrderLoading(false);
             clearOrder();
@@ -150,10 +153,10 @@ $('#btn-clear-order').on('click', () => {
     if (getOrderItems().length === 0) return;
     Swal.fire({
         title: 'Clear Order?',
-        icon: 'warning',
-        showCancelButton: true,
+        icon:  'warning',
+        showCancelButton:   true,
         confirmButtonColor: '#e53e3e',
-        confirmButtonText: 'Clear'
+        confirmButtonText:  'Clear',
     }).then(r => {
         if (r.isConfirmed) {
             clearOrder();

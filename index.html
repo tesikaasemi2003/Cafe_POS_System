@@ -33,77 +33,127 @@
 </div>
 
 <!-- ===================== MAIN APP ===================== -->
-<div id="main-app" style="display:none; height:100vh; flex-direction:column;">
-
-    <header>
-        <nav id="navbar">
-            <div class="tb-logo-ph">
-                <img src="assets/images/login page/T_T Coffee Shop Logo.png" alt="logo">
-            </div>
-            <div>
-                <div class="tb-brand">T&amp;T CAFE</div>
-                <div class="tb-tag">Brew joy!!!</div>
-            </div>
-            <div class="tb-spacer"></div>
-            <div class="tb-user">
-                <div id="tb-avatar">AD</div>
-                <span id="tb-uname">Admin</span>
-            </div>
-            <button id="btn-signout">Sign Out</button>
-        </nav>
-    </header>
-
     <main>
         <div class="app-body">
 
-            <!-- NEW ORDER -->
-            <section id="page-order" class="page active">
-                <div class="menu-area">
-                    <div id="cat-tabs" class="cat-tabs"></div>
-                    <div class="menu-top">
-                        <div class="welcome-box">
-                            <div class="welcome-text">Hi 👋</div>
-                            <div class="welcome-sub" id="welcome-name">Welcome Back!</div>
-                        </div>
-                        <img class="welcome-sticker" src="assets/images/main page/coffee_avatar.png" alt="">
-                        <input class="search-box" id="menu-search" type="text" placeholder="🔍 Search items...">
+            <!-- HEADER -->
+            <header class="header">
+                <div class="logo-area">
+                    <div class="logo-icon">☕</div>
+                    <div>
+                        <div class="logo-text">T&T CAFÉ</div>
+                        <div class="logo-sub">Est. 2026</div>
                     </div>
-                    <div class="cat-banner all" id="cat-banner">
-                        <span class="cat-banner-name" id="cat-banner-name">🍵 All Items</span>
+                </div>
+                <div class="header-right">
+                    <div class="admin-badge">
+                        <div class="admin-avatar">AD</div>
+                        <span class="admin-name">Admin</span>
                     </div>
-                    <div class="item-grid-wrap">
-                        <div class="item-grid" id="menu-grid"></div>
-                    </div>
+                    <button class="signout-btn">Sign Out</button>
+                </div>
+            </header>
+
+            <!-- CATEGORY TABS -->
+            <nav class="cat-bar" id="catBar">
+                <button class="cat-tab active" data-cat="cold" onclick="switchCat(this,'cold')"><span>🧊</span> Cold Drinks</button>
+                <button class="cat-tab" data-cat="bakery" onclick="switchCat(this,'bakery')"><span>🥐</span> Bakery</button>
+                <button class="cat-tab" data-cat="sandwiches" onclick="switchCat(this,'sandwiches')"><span>🥪</span> Sandwiches</button>
+                <button class="cat-tab" data-cat="light" onclick="switchCat(this,'light')"><span>🥗</span> Light Meals</button>
+                <button class="cat-tab" data-cat="desserts" onclick="switchCat(this,'desserts')"><span>🍰</span> Desserts</button>
+                <button class="cat-tab" data-cat="hot" onclick="switchCat(this,'hot')"><span>☕</span> Hot Drinks</button>
+            </nav>
+
+            <!-- MAIN -->
+            <div class="main">
+
+                <!-- MENU AREA -->
+                <div class="menu-area" id="menuArea">
+                    <div class="section-title" id="sectionTitle">☕ Cold Drinks</div>
+                    <div class="items-grid" id="itemsGrid"></div>
                 </div>
 
-                <div id="order-panel">
-                    <div class="op-head" id="op-head">
-                        <div class="op-title">📋 Current Order</div>
-                        <div class="op-sub-title" id="op-sub-title">Select items to begin</div>
+                <!-- ORDER PANEL -->
+                <aside class="order-panel">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <div class="panel-title-icon">🛒</div>
+                            Current Order
+                        </div>
+                        <select class="customer-select" id="customerSelect">
+                            <option>👤 Walk-in Customer</option>
+                            <option>⭐ Kasun Perera</option>
+                            <option>⭐ Nimal Silva</option>
+                            <option>⭐ Amali Fernando</option>
+                            <option>+ Add New Customer</option>
+                        </select>
                     </div>
-                    <div class="op-cust-wrap">
-                        <select id="op-cust-select" class="op-cust-select"></select>
-                    </div>
-                    <div class="op-items" id="op-items">
-                        <div class="op-empty">
-                            <div class="op-empty-icon">🛒</div>
-                            <span>No items added yet</span>
+
+                    <div class="cart-items" id="cartItems">
+                        <div class="cart-empty">
+                            <div class="cart-empty-icon">🛒</div>
+                            <div class="cart-empty-text">No items added yet.<br>Tap any item to add to order.</div>
                         </div>
                     </div>
-                    <div class="op-totals">
-                        <div class="op-tot-row"><span>Subtotal</span><span id="op-sub">Rs. 0.00</span></div>
-                        <div class="op-tot-row"><span>Tax (10%)</span><span id="op-tax">Rs. 0.00</span></div>
-                        <div class="op-grand">
-                            <span class="op-grand-label">TOTAL</span>
-                            <span class="op-grand-val" id="op-grand">Rs. 0.00</span>
+
+                    <div class="panel-footer">
+                        <div class="totals">
+                            <div class="total-row">
+                                <span>Subtotal</span>
+                                <span id="subtotal">Rs. 0.00</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Tax (10%)</span>
+                                <span id="tax">Rs. 0.00</span>
+                            </div>
+                            <div class="total-row grand">
+                                <span>TOTAL</span>
+                                <span class="amount" id="total">Rs. 0.00</span>
+                            </div>
                         </div>
+                        <button class="place-order-btn" onclick="placeOrder()">
+                            ✅ Place Order
+                        </button>
+                        <button class="clear-btn" onclick="clearCart()">
+                            🗑 Clear Order
+                        </button>
                     </div>
-                    <div class="op-acts">
-                        <button id="btn-place-order">✅ Place Order</button>
-                        <button id="btn-clear-order">🗑️ Clear</button>
-                    </div>
+                </aside>
+            </div>
+
+            <!-- BOTTOM NAV -->
+            <nav class="bottom-nav">
+                <div class="nav-item active">
+                    <span class="nav-icon">🧾</span>New Order
                 </div>
-            </section>
+                <div class="nav-item">
+                    <span class="nav-icon">📊</span>Dashboard
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">👥</span>Customers
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">🍽</span>Menu Items
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">🕐</span>History
+                </div>
+            </nav>
+
+            <!-- TOAST -->
+            <div class="toast" id="toast"></div>
+
+            <!-- ORDER SUCCESS MODAL -->
+            <div class="modal-overlay" id="modalOverlay">
+                <div class="modal">
+                    <span class="modal-icon">🎉</span>
+                    <div class="modal-title">Order Placed!</div>
+                    <div class="modal-sub">Your order has been sent to the kitchen.</div>
+                    <div class="order-num" id="orderNum">#0001</div>
+                    <div class="modal-sub" id="orderSummary"></div>
+                    <button class="modal-close-btn" onclick="closeModal()">Start New Order</button>
+                </div>
+            </div>
 
             <!-- DASHBOARD -->
             <section id="page-dash" class="page">

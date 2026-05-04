@@ -1,50 +1,19 @@
 // ========================= T&T Cafe POS - Customer Model =========================
-import { customer_db } from '../db/db.js';
-import * as db from '../db/db.js';
-
-class Customer {
-    #id;
-    #name;
-    #phone;
-    #email;
-    #address;
-    #loyaltyPoints;
-    #totalSpent;
-    #joinDate;
-
-    constructor(id, name, phone, email = '', address = '', loyaltyPoints = 0, totalSpent = 0) {
-        this.#id            = id;
-        this.#name          = name;
-        this.#phone         = phone;
-        this.#email         = email;
-        this.#address       = address;
-        this.#loyaltyPoints = loyaltyPoints;
-        this.#totalSpent    = totalSpent;
-        this.#joinDate      = new Date().toISOString();
-    }
-
-    get id()            { return this.#id; }
-    get name()          { return this.#name; }
-    get phone()         { return this.#phone; }
-    get email()         { return this.#email; }
-    get address()       { return this.#address; }
-    get loyaltyPoints() { return this.#loyaltyPoints; }
-    get totalSpent()    { return this.#totalSpent; }
-    get joinDate()      { return this.#joinDate; }
-
-    set name(name)                   { this.#name = name; }
-    set phone(phone)                 { this.#phone = phone; }
-    set email(email)                 { this.#email = email; }
-    set address(address)             { this.#address = address; }
-    set loyaltyPoints(loyaltyPoints) { this.#loyaltyPoints = loyaltyPoints; }
-    set totalSpent(totalSpent)       { this.#totalSpent = totalSpent; }
-}
+import { customer_db, counters } from '../db/db.js';
 
 // --------------------------- Add Customer ---------------------------
 const addCustomerData = (name, phone, email, address) => {
-    const new_customer = new Customer(db.customer_db.length +1, name, phone, email, address);
-    customer_db.push(new_customer);
-    return new_customer;
+    const newCustomer = {
+        id:            counters.customer_id++,
+        name, phone,
+        email:         email   || '',
+        address:       address || '',
+        loyaltyPoints: 0,
+        totalSpent:    0,
+        joinDate:      new Date().toISOString(),
+    };
+    customer_db.push(newCustomer);
+    return newCustomer;
 };
 
 // --------------------------- Update Customer ---------------------------
@@ -79,7 +48,7 @@ const updateLoyaltyAfterOrder = (id, orderTotal) => {
     const obj = customer_db.find(c => c.id === id);
     if (obj) {
         obj.totalSpent    += orderTotal;
-        obj.loyaltyPoints += Math.floor(orderTotal / 100); // 1 point per Rs.100
+        obj.loyaltyPoints += Math.floor(orderTotal / 100);
     }
 };
 
