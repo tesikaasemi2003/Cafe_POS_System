@@ -4,53 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>T&T Cafe POS</title>
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Petit+Formal+Script&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Custom Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Lobster&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/styles/style.css">
 </head>
 <body>
 
 <!-- ===================== LOGIN PAGE ===================== -->
 <div id="login-page">
-    <div class="login-card">
-        <div class="login-logo">
-            <div class="login-logo-circle">
-                <img src="assets/images/login%20page/T_T%20Coffee%20Shop%20Logo.png" alt="logo">
-                </div>
+    <div class="login-wrap">
+        <div class="login-side-img1"><img src="assets/images/login page/img1.png" alt=""></div>
+        <div class="login-side-img2"><img src="assets/images/login page/img2.png" alt=""></div>
+        <div class="login-card">
+            <div class="login-logo">
+                <img src="assets/images/login page/T_T Coffee Shop Logo.png" alt="logo">
+            </div>
+            <div class="login-title">T&amp;T CAFE</div>
+            <div class="login-tagline">Brew joy!!!</div>
+            <label class="l-label" for="lu">Username</label>
+            <input class="l-input" id="lu" type="text" placeholder="admin" autocomplete="off">
+            <label class="l-label" for="lp">Password</label>
+            <input class="l-input" id="lp" type="password" placeholder="••••••">
+            <div class="l-err" id="l-err">⚠ Invalid credentials!</div>
+            <button class="btn-signin" id="btn-signin">Sign In</button>
+            <div class="l-hint">Default: admin / admin123</div>
         </div>
-        <div class="login-title">T&amp;T CAFE</div>
-        <div class="login-tagline">BrewJoy!!!</div>
-
-        <label class="l-label" for="lu">Username</label>
-        <input class="l-input" id="lu" type="text" placeholder="admin" autocomplete="off">
-
-        <label class="l-label" for="lp">Password</label>
-        <input class="l-input" id="lp" type="password" placeholder="••••••">
-
-        <div class="l-err" id="l-err">⚠ Invalid credentials!</div>
-        <button class="btn-signin" id="btn-signin">Sign In</button>
-        <div class="l-hint">Default: admin / admin123</div>
     </div>
 </div>
 
 <!-- ===================== MAIN APP ===================== -->
 <div id="main-app" style="display:none; height:100vh; flex-direction:column;">
 
-    <!-- ===== HEADER / NAVBAR ===== -->
     <header>
         <nav id="navbar">
             <div class="tb-logo-ph">
-                <img src="assets/images/login%20page/T_T%20Coffee%20Shop%20Logo.png" alt="logo">
+                <img src="assets/images/login page/T_T Coffee Shop Logo.png" alt="logo">
             </div>
             <div>
                 <div class="tb-brand">T&amp;T CAFE</div>
-                <div class="tb-tag">Point of Sale</div>
+                <div class="tb-tag">Brew joy!!!</div>
             </div>
             <div class="tb-spacer"></div>
             <div class="tb-user">
@@ -61,58 +53,43 @@
         </nav>
     </header>
 
-    <!-- ===== MAIN CONTENT ===== -->
     <main>
         <div class="app-body">
 
-            <!-- ============= PAGE: NEW ORDER ============= -->
+            <!-- NEW ORDER -->
             <section id="page-order" class="page active">
-
-                <!-- Left: Menu area -->
                 <div class="menu-area">
-                    <!-- Category tabs -->
                     <div id="cat-tabs" class="cat-tabs"></div>
-
-                    <!-- Search + welcome -->
                     <div class="menu-top">
+                        <div class="welcome-box">
+                            <div class="welcome-text">Hi 👋</div>
+                            <div class="welcome-sub" id="welcome-name">Welcome Back!</div>
+                        </div>
+                        <img class="welcome-sticker" src="assets/images/main page/coffee_avatar.png" alt="">
                         <input class="search-box" id="menu-search" type="text" placeholder="🔍 Search items...">
                     </div>
-
-                    <!-- Category banner -->
                     <div class="cat-banner all" id="cat-banner">
                         <span class="cat-banner-name" id="cat-banner-name">🍵 All Items</span>
                     </div>
-
-                    <!-- Item grid -->
                     <div class="item-grid-wrap">
                         <div class="item-grid" id="menu-grid"></div>
                     </div>
                 </div>
 
-                <!-- Right: Side Order Bar (yellow panel) -->
                 <div id="order-panel">
                     <div class="op-head" id="op-head">
                         <div class="op-title">📋 Current Order</div>
                         <div class="op-sub-title" id="op-sub-title">Select items to begin</div>
                     </div>
-
-                    <!-- Customer select -->
-                    <div class="op-cust">
-                        <div class="op-cust-row">
-                            <span class="op-cust-icon">👤</span>
-                            <select class="op-cust-select" id="op-cust-select"></select>
-                        </div>
+                    <div class="op-cust-wrap">
+                        <select id="op-cust-select" class="op-cust-select"></select>
                     </div>
-
-                    <!-- Order item rows -->
                     <div class="op-items" id="op-items">
                         <div class="op-empty">
                             <div class="op-empty-icon">🛒</div>
                             <span>No items added yet</span>
                         </div>
                     </div>
-
-                    <!-- Totals -->
                     <div class="op-totals">
                         <div class="op-tot-row"><span>Subtotal</span><span id="op-sub">Rs. 0.00</span></div>
                         <div class="op-tot-row"><span>Tax (10%)</span><span id="op-tax">Rs. 0.00</span></div>
@@ -121,35 +98,23 @@
                             <span class="op-grand-val" id="op-grand">Rs. 0.00</span>
                         </div>
                     </div>
-
-                    <!-- Action buttons -->
                     <div class="op-acts">
                         <button id="btn-place-order">✅ Place Order</button>
-                        <button id="btn-clear-order">🗑️ Clear Order</button>
+                        <button id="btn-clear-order">🗑️ Clear</button>
                     </div>
                 </div>
-
             </section>
 
-            <!-- ============= PAGE: DASHBOARD ============= -->
+            <!-- DASHBOARD -->
             <section id="page-dash" class="page">
                 <div class="mgmt-wrap">
-                    <div class="pg-head">
-                        <div>
-                            <div class="pg-title">📊 Dashboard</div>
-                            <div class="pg-sub">Today's overview</div>
-                        </div>
-                    </div>
-
-                    <!-- Stat cards -->
+                    <div class="pg-head"><div><div class="pg-title">📊 Dashboard</div><div class="pg-sub">Today's overview</div></div></div>
                     <div class="stat-grid">
                         <div class="stat-c s1"><div class="stat-icon">🧾</div><div class="stat-v" id="d-orders">0</div><div class="stat-l">Orders Today</div></div>
                         <div class="stat-c s2"><div class="stat-icon">💰</div><div class="stat-v" id="d-rev">Rs.0</div><div class="stat-l">Revenue Today</div></div>
                         <div class="stat-c s3"><div class="stat-icon">👥</div><div class="stat-v" id="d-cust">0</div><div class="stat-l">Customers</div></div>
                         <div class="stat-c s4"><div class="stat-icon">🍵</div><div class="stat-v" id="d-items">0</div><div class="stat-l">Menu Items</div></div>
                     </div>
-
-                    <!-- Recent orders -->
                     <div class="card-box">
                         <h6 style="font-weight:700;color:var(--brown-dark);margin-bottom:12px;">🕐 Recent Orders</h6>
                         <div id="d-recent"></div>
@@ -157,182 +122,86 @@
                 </div>
             </section>
 
-            <!-- ============= PAGE: CUSTOMERS ============= -->
+            <!-- CUSTOMERS -->
             <section id="page-cust" class="page">
                 <div class="mgmt-wrap">
-                    <div class="pg-head">
-                        <div>
-                            <div class="pg-title">👥 Customers</div>
-                            <div class="pg-sub">Manage customer records</div>
-                        </div>
-                        <button class="btn-new" id="btn-new-cust">+ New Customer</button>
-                    </div>
+                    <div class="pg-head"><div><div class="pg-title">👥 Customers</div><div class="pg-sub">Manage customer records</div></div><button class="btn-new" id="btn-new-cust">+ New Customer</button></div>
                     <div class="card-box">
                         <input class="s-bar" type="text" id="cust-search" placeholder="🔍 Search by name or phone...">
-                        <table class="tbl">
-                            <thead>
-                            <tr>
-                                <th>#ID</th><th>Name</th><th>Phone</th>
-                                <th>Email</th><th>Address</th><th>Loyalty</th><th>Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody id="cust-tbl"></tbody>
-                        </table>
+                        <table class="tbl"><thead><tr><th>#ID</th><th>Name</th><th>Phone</th><th>Email</th><th>Address</th><th>Loyalty</th><th>Actions</th></tr></thead><tbody id="cust-tbl"></tbody></table>
                         <div id="cust-empty" style="display:none;text-align:center;color:var(--text-light);padding:24px;font-size:13px;">No customers found.</div>
                     </div>
                 </div>
             </section>
 
-            <!-- ============= PAGE: MENU ITEMS ============= -->
+            <!-- MENU ITEMS -->
             <section id="page-items" class="page">
                 <div class="mgmt-wrap">
-                    <div class="pg-head">
-                        <div>
-                            <div class="pg-title">🍴 Menu Items</div>
-                            <div class="pg-sub">Manage your menu catalog</div>
-                        </div>
-                        <button class="btn-new" id="btn-new-item">+ New Item</button>
-                    </div>
+                    <div class="pg-head"><div><div class="pg-title">🍴 Menu Items</div><div class="pg-sub">Manage your menu catalog</div></div><button class="btn-new" id="btn-new-item">+ New Item</button></div>
                     <div class="card-box">
                         <input class="s-bar" type="text" id="item-search" placeholder="🔍 Search items...">
-                        <table class="tbl">
-                            <thead>
-                            <tr>
-                                <th>Photo</th><th>Code</th><th>Name</th>
-                                <th>Category</th><th>Price</th><th>Stock</th><th>Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody id="item-tbl"></tbody>
-                        </table>
+                        <table class="tbl"><thead><tr><th>Photo</th><th>Code</th><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead><tbody id="item-tbl"></tbody></table>
                         <div id="item-empty" style="display:none;text-align:center;color:var(--text-light);padding:24px;font-size:13px;">No items found.</div>
                     </div>
                 </div>
             </section>
 
-            <!-- ============= PAGE: ORDER HISTORY ============= -->
+            <!-- ORDER HISTORY -->
             <section id="page-hist" class="page">
                 <div class="mgmt-wrap">
-                    <div class="pg-head">
-                        <div>
-                            <div class="pg-title">🕐 Order History</div>
-                            <div class="pg-sub">Past orders — click a card to expand</div>
-                        </div>
-                    </div>
+                    <div class="pg-head"><div><div class="pg-title">🕐 Order History</div><div class="pg-sub">Past orders — click a card to expand</div></div></div>
                     <input class="s-bar" type="text" id="hist-search" placeholder="🔍 Search by customer name or order ID...">
                     <div id="hist-list"></div>
                 </div>
             </section>
 
-        </div><!-- /.app-body -->
+        </div>
     </main>
 
-    <!-- ===== BOTTOM NAV (sidebar navigation) ===== -->
     <nav id="bottom-nav">
-        <div class="bn-item active" id="bn-order" onclick="showPage('order')">
-            <div class="bn-icon">🛒</div>New Order
-        </div>
-        <div class="bn-item" id="bn-dash" onclick="showPage('dash')">
-            <div class="bn-icon">📊</div>Dashboard
-        </div>
-        <div class="bn-item" id="bn-cust" onclick="showPage('cust')">
-            <div class="bn-icon">👥</div>Customers
-        </div>
-        <div class="bn-item" id="bn-items" onclick="showPage('items')">
-            <div class="bn-icon">🍴</div>Menu Items
-        </div>
-        <div class="bn-item" id="bn-hist" onclick="showPage('hist')">
-            <div class="bn-icon">🕐</div>History
-        </div>
+        <div class="bn-item active" id="bn-order" onclick="showPage('order')"><div class="bn-icon">🛒</div>New Order</div>
+        <div class="bn-item" id="bn-dash" onclick="showPage('dash')"><div class="bn-icon">📊</div>Dashboard</div>
+        <div class="bn-item" id="bn-cust" onclick="showPage('cust')"><div class="bn-icon">👥</div>Customers</div>
+        <div class="bn-item" id="bn-items" onclick="showPage('items')"><div class="bn-icon">🍴</div>Menu Items</div>
+        <div class="bn-item" id="bn-hist" onclick="showPage('hist')"><div class="bn-icon">🕐</div>History</div>
     </nav>
 
-</div><!-- /#main-app -->
+</div>
 
-<!-- ========================= MODALS ========================= -->
-
-<!-- Customer Modal -->
+<!-- MODALS -->
 <div class="modal-ov" id="cust-modal">
     <div class="modal-box">
-        <div class="m-title">
-            <div class="m-icon">👥</div>
-            <span id="cust-modal-title">Add Customer</span>
-        </div>
+        <div class="m-title"><div class="m-icon">👥</div><span id="cust-modal-title">Add Customer</span></div>
         <input type="hidden" id="c-id">
-        <div class="f-g">
-            <label class="f-l">Full Name *</label>
-            <input class="f-i" id="c-name" type="text" placeholder="e.g. Nimal Perera">
-            <div class="f-err" id="c-name-e">Valid name required (letters only, min 2 chars).</div>
-        </div>
+        <div class="f-g"><label class="f-l">Full Name *</label><input class="f-i" id="c-name" type="text" placeholder="e.g. Nimal Perera"><div class="f-err" id="c-name-e">Valid name required.</div></div>
         <div class="m-row">
-            <div class="f-g">
-                <label class="f-l">Phone *</label>
-                <input class="f-i" id="c-phone" type="text" placeholder="07X XXXXXXX">
-                <div class="f-err" id="c-phone-e">Valid Sri Lankan phone required.</div>
-            </div>
-            <div class="f-g">
-                <label class="f-l">Email (optional)</label>
-                <input class="f-i" id="c-email" type="email" placeholder="email@example.com">
-                <div class="f-err" id="c-email-e">Invalid email format.</div>
-            </div>
+            <div class="f-g"><label class="f-l">Phone *</label><input class="f-i" id="c-phone" type="text" placeholder="07X XXXXXXX"><div class="f-err" id="c-phone-e">Valid Sri Lankan phone required.</div></div>
+            <div class="f-g"><label class="f-l">Email (optional)</label><input class="f-i" id="c-email" type="email" placeholder="email@example.com"><div class="f-err" id="c-email-e">Invalid email format.</div></div>
         </div>
-        <div class="f-g">
-            <label class="f-l">Address</label>
-            <input class="f-i" id="c-addr" type="text" placeholder="Street, City">
-        </div>
-        <div class="m-actions">
-            <button class="btn-modal-cancel" id="btn-cancel-cust">Cancel</button>
-            <button class="btn-modal-save"   id="btn-save-cust">Save Customer</button>
-        </div>
+        <div class="f-g"><label class="f-l">Address</label><input class="f-i" id="c-addr" type="text" placeholder="Street, City"></div>
+        <div class="m-actions"><button class="btn-modal-cancel" id="btn-cancel-cust">Cancel</button><button class="btn-modal-save" id="btn-save-cust">Save Customer</button></div>
     </div>
 </div>
 
-<!-- Menu Item Modal -->
 <div class="modal-ov" id="item-modal">
     <div class="modal-box">
-        <div class="m-title">
-            <div class="m-icon">🍵</div>
-            <span id="item-modal-title">Add Menu Item</span>
-        </div>
+        <div class="m-title"><div class="m-icon">🍵</div><span id="item-modal-title">Add Menu Item</span></div>
         <input type="hidden" id="i-id">
         <div class="m-row">
-            <div class="f-g">
-                <label class="f-l">Item Code *</label>
-                <input class="f-i" id="i-code" type="text" placeholder="e.g. HOT001">
-                <div class="f-err" id="i-code-e">Format: 2–4 CAPS + 3 digits (e.g. HOT001).</div>
-            </div>
-            <div class="f-g">
-                <label class="f-l">Category *</label>
-                <select class="f-i" id="i-cat"></select>
-                <div class="f-err" id="i-cat-e">Please select a category.</div>
-            </div>
+            <div class="f-g"><label class="f-l">Item Code *</label><input class="f-i" id="i-code" type="text" placeholder="e.g. HOT001"><div class="f-err" id="i-code-e">Format: 2–4 CAPS + 3 digits.</div></div>
+            <div class="f-g"><label class="f-l">Category *</label><select class="f-i" id="i-cat"></select><div class="f-err" id="i-cat-e">Please select a category.</div></div>
         </div>
-        <div class="f-g">
-            <label class="f-l">Item Name *</label>
-            <input class="f-i" id="i-name" type="text" placeholder="e.g. Iced Latte">
-            <div class="f-err" id="i-name-e">Valid item name required.</div>
+        <div class="f-g"><label class="f-l">Item Name *</label><input class="f-i" id="i-name" type="text" placeholder="e.g. Iced Latte"><div class="f-err" id="i-name-e">Valid item name required.</div></div>
+        <div class="m-row">
+            <div class="f-g"><label class="f-l">Price (Rs.) *</label><input class="f-i" id="i-price" type="number" min="0" step="0.01" placeholder="e.g. 450"><div class="f-err" id="i-price-e">Valid positive price required.</div></div>
+            <div class="f-g"><label class="f-l">Stock Qty *</label><input class="f-i" id="i-qty" type="number" min="0" placeholder="e.g. 50"><div class="f-err" id="i-qty-e">Valid stock quantity required.</div></div>
         </div>
         <div class="m-row">
-            <div class="f-g">
-                <label class="f-l">Price (Rs.) *</label>
-                <input class="f-i" id="i-price" type="number" min="0" step="0.01" placeholder="e.g. 450">
-                <div class="f-err" id="i-price-e">Valid positive price required.</div>
-            </div>
-            <div class="f-g">
-                <label class="f-l">Stock Qty *</label>
-                <input class="f-i" id="i-qty" type="number" min="0" placeholder="e.g. 50">
-                <div class="f-err" id="i-qty-e">Valid stock quantity required.</div>
-            </div>
-        </div>
-        <div class="m-row">
-            <div class="f-g">
-                <label class="f-l">Emoji Icon</label>
-                <input class="f-i" id="i-icon" type="text" placeholder="☕" maxlength="4">
-            </div>
+            <div class="f-g"><label class="f-l">Emoji Icon</label><input class="f-i" id="i-icon" type="text" placeholder="☕" maxlength="4"></div>
             <div class="f-g">
                 <label class="f-l">Photo (optional)</label>
                 <div class="photo-upload-wrap">
-                    <div class="photo-preview" id="photo-preview">
-                        <span style="font-size:28px;opacity:.4">📷</span>
-                    </div>
+                    <div class="photo-preview" id="photo-preview"><span style="font-size:28px;opacity:.4">📷</span></div>
                     <div>
                         <label class="btn-upload-photo" for="i-photo-file">📁 Upload</label>
                         <input type="file" id="i-photo-file" accept="image/*" style="display:none">
@@ -342,38 +211,26 @@
                 <input type="hidden" id="i-photo">
             </div>
         </div>
-        <div class="m-actions">
-            <button class="btn-modal-cancel" id="btn-cancel-item">Cancel</button>
-            <button class="btn-modal-save"   id="btn-save-item">Save Item</button>
-        </div>
+        <div class="m-actions"><button class="btn-modal-cancel" id="btn-cancel-item">Cancel</button><button class="btn-modal-save" id="btn-save-item">Save Item</button></div>
     </div>
 </div>
 
-<!-- Order Receipt Modal -->
 <div class="modal-ov" id="order-modal">
     <div class="receipt-box">
         <div id="receipt"></div>
-        <div style="text-align:center;margin-top:14px;">
-            <button class="btn-modal-save" id="btn-close-receipt">✅ Done</button>
-        </div>
+        <div style="text-align:center;margin-top:14px;"><button class="btn-modal-save" id="btn-close-receipt">✅ Done</button></div>
     </div>
 </div>
 
-<!-- Mobile order panel overlay -->
 <div id="op-overlay" onclick="closeMobPanel()"></div>
-
-<!-- Mobile floating cart button -->
 <button class="mob-order-btn" id="mob-order-btn" onclick="toggleMobPanel()">
     🛒 Order <span class="mob-cart-count" id="mob-cart-count">0</span>
 </button>
 
-<!-- ===================== SCRIPTS ===================== -->
 <script src="assets/lib/jquery-4.0.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-
-<!-- App Bootstrap (login + page router) -->
 <script type="module">
     import { loadNavbarUser } from './controller/NavbarController.js';
     import { initNewOrderPage, renderMenuGrid } from './controller/NewOrderController.js';
@@ -383,7 +240,6 @@
     import { renderHistory }     from './controller/HistoryController.js';
     import { loginSuccessFlash } from './utils/animations.js';
 
-    // ---- Login ----
     const CREDENTIALS = { admin: 'admin123', cashier: 'cafe2024' };
 
     $('#btn-signin').on('click', doLogin);
@@ -404,7 +260,6 @@
         } else {
             $('#l-err').show();
             $('#lu, #lp').addClass('invalid');
-            // Shake the login card
             $('.login-card').css('animation','login-shake .4s ease');
             setTimeout(() => {
                 $('#l-err').hide();
@@ -414,14 +269,11 @@
         }
     }
 
-    // ---- Page Router ----
     window.showPage = (name) => {
         $('.page').removeClass('active');
         $('.bn-item').removeClass('active');
         $(`#page-${name}`).addClass('active');
         $(`#bn-${name}`).addClass('active');
-
-        // Lazy-render each page
         if (name === 'dash')  renderDashboard();
         if (name === 'cust')  renderCustomerTable();
         if (name === 'items') renderMenuTable();
