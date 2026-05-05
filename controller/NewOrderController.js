@@ -1,3 +1,4 @@
+
 import { getMenuItemData, getMenuItemsByCategory, reduceStock } from '../model/MenuModel.js';
 import { getCustomerById, updateLoyaltyAfterOrder } from '../model/CustomerModel.js';
 import { placeOrderData } from '../model/OrderModel.js';
@@ -99,11 +100,22 @@ $(document).on('input', '#menu-search', () => renderMenuGrid());
 
 // Make accessible to main.js if needed
 window.renderMenuGrid = renderMenuGrid;
-window.initNewOrderPage = () => {
+// window.initNewOrderPage = () => {
+//     loadCustomerDropdown();
+//     renderCategoryTabs();
+//     renderMenuGrid();
+//     renderOrderPanel();
+// };
+//
+// export { renderMenuGrid, initNewOrderPage };
+
+const initNewOrderPage = () => {
     loadCustomerDropdown();
     renderCategoryTabs();
     renderMenuGrid();
     renderOrderPanel();
 };
+
+window.initNewOrderPage = initNewOrderPage;
 
 export { renderMenuGrid, initNewOrderPage };
