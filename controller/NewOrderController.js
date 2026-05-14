@@ -1,9 +1,8 @@
-
 import { getMenuItemData, getMenuItemsByCategory, reduceStock } from '../model/MenuModel.js';
-import { getCustomerById, updateLoyaltyAfterOrder } from '../model/CustomerModel.js';
+import { updateLoyaltyAfterOrder } from '../model/CustomerModel.js';
 import { placeOrderData } from '../model/OrderModel.js';
-import { addOrderItem, clearOrder, getOrderItems, getOrderTotal, renderOrderPanel, loadCustomerDropdown } from './SideOrderBarController.js';
-import { flyToCart, rippleCard, popBadge, popCartBadge, placeOrderLoading, showThankYou } from '../utils/animations.js';
+import { addOrderItem, clearOrder, getOrderItems, renderOrderPanel, loadCustomerDropdown } from './SideOrderBarController.js';
+import { flyToCart, rippleCard, popCartBadge, placeOrderLoading, showThankYou } from '../utils/animations.js';
 
 const CATEGORIES = ['All', 'Hot Drinks', 'Cold Drinks', 'Bakery', 'Sandwiches', 'Light Meals', 'Desserts'];
 const CAT_META = {
@@ -19,7 +18,7 @@ const CAT_META = {
 let currentCategory = 'All';
 
 const renderCategoryTabs = () => {
-    const $tabs = $('#cat-tabs'); // Match HTML ID
+    const $tabs = $('#cat-tabs');
     if (!$tabs.length) return;
     $tabs.empty();
 
@@ -37,7 +36,7 @@ const renderCategoryTabs = () => {
 };
 
 const renderMenuGrid = () => {
-    const $grid = $('#menu-grid'); // Match HTML ID
+    const $grid = $('#menu-grid');
     const search = $('#menu-search').val()?.toLowerCase().trim() || "";
     const meta = CAT_META[currentCategory];
     const orderItems = getOrderItems();
@@ -95,27 +94,54 @@ const renderMenuGrid = () => {
     });
 };
 
-// Search listener
 $(document).on('input', '#menu-search', () => renderMenuGrid());
-
-// Make accessible to main.js if needed
-window.renderMenuGrid = renderMenuGrid;
-// window.initNewOrderPage = () => {
-//     loadCustomerDropdown();
-//     renderCategoryTabs();
-//     renderMenuGrid();
-//     renderOrderPanel();
-// };
-//
-// export { renderMenuGrid, initNewOrderPage };
 
 const initNewOrderPage = () => {
     loadCustomerDropdown();
     renderCategoryTabs();
     renderMenuGrid();
     renderOrderPanel();
+
+    $(document).off('click', '#btn-place-order').on('click', '#btn-place-order', async () => {
+        const items = getOrderItems();
+        if (items.length === 0) {
+            Swal.fire({ icon: 'warning', title: 'Empty Order', text: 'Add items before placing order!', timer: 1800, showConfirmButton: false });
+            return;
+        }
+
+        const customerId   = parseInt($('#op-cust-select').val());
+        const customerName = $('#op-cust-select option:selected').text();
+
+        const newOrder = placeOrderData(customerId, customerName, items);
+        items.forEach(i => reduceStock(i.itemId, i.qty));
+        updateLoyaltyAfterOrder(customerId, newOrder.total);
+
+        await placeOrderLoading();
+        showThankYou();
+
+        clearOrder();
+        renderMenuGrid();
+    });
+
+    $(document).off('click', '#btn-clear-order').on('click', '#btn-clear-order', () => {
+        if (getOrderItems().length === 0) return;
+        Swal.fire({
+            title: 'Clear order?',
+            text: 'All items will be removed.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, clear',
+            cancelButtonText: 'Cancel'
+        }).then(result => {
+            if (result.isConfirmed) {
+                clearOrder();
+                renderMenuGrid();
+            }
+        });
+    });
 };
 
+window.renderMenuGrid = renderMenuGrid;
 window.initNewOrderPage = initNewOrderPage;
 
 export { renderMenuGrid, initNewOrderPage };

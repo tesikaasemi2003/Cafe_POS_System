@@ -7,6 +7,7 @@ import {
 import { check_name, check_phone, check_email } from '../utils/regex_utils.js';
 import { loadCustomerDropdown } from './SideOrderBarController.js';
 
+const Swal = window.Swal;
 // ------------------------ Render Customer Table --------------------------------
 const renderCustomerTable = () => {
     const search  = $('#cust-search').val().toLowerCase().trim();

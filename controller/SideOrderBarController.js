@@ -143,8 +143,13 @@ window.removeOrderItem = (itemId) => {
 // ------------------------ Clear Order ----------------------------------------
 const clearOrder = () => {
     orderItems = [];
-    $('#op-cust-select').val($('#op-cust-select option:first').val());
     renderOrderPanel();
+
+
+    const $sel = $('#op-cust-select');
+    if ($sel.length) {
+        $sel[0].selectedIndex = 0;
+    }
 };
 
 // ------------------------ Getters --------------------------------------------

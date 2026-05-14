@@ -8,7 +8,7 @@ import { check_item_code, check_name, check_price, check_positive_int } from '..
 import { renderMenuGrid } from './NewOrderController.js';
 
 const CATEGORIES = ['Hot Drinks', 'Cold Drinks', 'Bakery', 'Sandwiches', 'Light Meals', 'Desserts'];
-
+const Swal = window.Swal;
 // ------------------------ Render Menu Items Table ------------------------------
 const renderMenuTable = () => {
     const search = $('#item-search').val().toLowerCase().trim();
