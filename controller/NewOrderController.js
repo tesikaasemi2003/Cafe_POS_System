@@ -102,7 +102,7 @@ const initNewOrderPage = () => {
     renderMenuGrid();
     renderOrderPanel();
 
-    $(document).off('click', '#btn-place-order').on('click', '#btn-place-order', async () => {
+    $(document).off('click', '#btn-place-order').on('click', '#btn-place-order', () => {
         const items = getOrderItems();
         if (items.length === 0) {
             Swal.fire({ icon: 'warning', title: 'Empty Order', text: 'Add items before placing order!', timer: 1800, showConfirmButton: false });
@@ -116,11 +116,18 @@ const initNewOrderPage = () => {
         items.forEach(i => reduceStock(i.itemId, i.qty));
         updateLoyaltyAfterOrder(customerId, newOrder.total);
 
-        await placeOrderLoading();
-        showThankYou();
+        // ✅ FIX 1: placeOrderLoading is not async — removed await
+        placeOrderLoading(true);
 
-        clearOrder();
-        renderMenuGrid();
+        // ✅ FIX 2: clearOrder & renderMenuGrid inside callback so they run AFTER thank-you closes
+        setTimeout(() => {
+            placeOrderLoading(false);
+            showThankYou(newOrder, () => {
+                clearOrder();
+                renderMenuGrid();
+                renderOrderPanel();
+            });
+        }, 1500);
     });
 
     $(document).off('click', '#btn-clear-order').on('click', '#btn-clear-order', () => {

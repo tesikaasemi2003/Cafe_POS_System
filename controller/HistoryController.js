@@ -4,7 +4,7 @@ import { getOrderData } from '../model/OrderModel.js';
 
 // ------------------------ Render Order History --------------------------------
 const renderHistory = () => {
-    const search     = $('#hist-search').val().toLowerCase().trim();
+    const search     = ($('#hist-search').val() || '').toLowerCase().trim(); // ✅ FIX: val() null-safe
     const $container = $('#hist-list');
     $container.empty();
 
@@ -12,7 +12,7 @@ const renderHistory = () => {
 
     if (search) {
         orders = orders.filter(o =>
-            o.customerName.toLowerCase().includes(search) ||
+            (o.customerName || '').toLowerCase().includes(search) || // ✅ FIX: customerName undefined safe
             String(o.id).includes(search)
         );
     }
@@ -27,9 +27,10 @@ const renderHistory = () => {
     }
 
     orders.forEach(order => {
-        const date = new Date(order.createdAt).toLocaleString();
-        const itemsSummary = order.items.slice(0, 2).map(i => `${i.icon} ${i.name}`).join(', ');
-        const more = order.items.length > 2 ? ` +${order.items.length - 2} more` : '';
+        const date         = new Date(order.createdAt).toLocaleString();
+        const items        = order.items || []; // ✅ FIX: items undefined safe
+        const itemsSummary = items.slice(0, 2).map(i => `${i.icon || '☕'} ${i.name}`).join(', ');
+        const more         = items.length > 2 ? ` +${items.length - 2} more` : '';
 
         $container.append(`
             <div class="hist-card" data-order-id="${order.id}">
@@ -37,11 +38,11 @@ const renderHistory = () => {
                     <div class="hist-order-id">Order #${order.id}</div>
                     <div class="hist-date">${date}</div>
                 </div>
-                <div class="hist-cust">👤 ${order.customerName}</div>
+                <div class="hist-cust">👤 ${order.customerName || 'Unknown'}</div>
                 <div class="hist-items-preview">${itemsSummary}${more}</div>
                 <div class="hist-card-foot">
-                    <span class="hist-count">${order.items.length} item(s)</span>
-                    <span class="hist-total">Rs. ${order.total.toFixed(2)}</span>
+                    <span class="hist-count">${items.length} item(s)</span>
+                    <span class="hist-total">Rs. ${(order.total || 0).toFixed(2)}</span>
                 </div>
                 <div class="hist-detail" id="hist-detail-${order.id}" style="display:none">
                     ${buildOrderDetail(order)}
@@ -51,7 +52,7 @@ const renderHistory = () => {
 
     // Toggle detail on card click
     $container.off('click', '.hist-card').on('click', '.hist-card', function () {
-        const id     = $(this).data('order-id');
+        const id      = $(this).data('order-id');
         const $detail = $(`#hist-detail-${id}`);
         $detail.slideToggle(200);
     });
@@ -59,12 +60,13 @@ const renderHistory = () => {
 
 // ------------------------ Build Detail HTML ----------------------------------
 const buildOrderDetail = (order) => {
-    const rows = order.items.map(i =>
+    const items = order.items || []; // ✅ FIX: items undefined safe
+    const rows = items.map(i =>
         `<tr>
-            <td>${i.icon} ${i.name}</td>
+            <td>${i.icon || '☕'} ${i.name}</td>
             <td style="text-align:center">${i.qty}</td>
-            <td style="text-align:right">Rs. ${i.unitPrice.toFixed(2)}</td>
-            <td style="text-align:right">Rs. ${(i.unitPrice * i.qty).toFixed(2)}</td>
+            <td style="text-align:right">Rs. ${(i.unitPrice || 0).toFixed(2)}</td>
+            <td style="text-align:right">Rs. ${((i.unitPrice || 0) * i.qty).toFixed(2)}</td>
         </tr>`
     ).join('');
 
@@ -78,13 +80,13 @@ const buildOrderDetail = (order) => {
             <tbody>${rows}</tbody>
         </table>
         <div class="hist-detail-totals">
-            <div><span>Subtotal</span><span>Rs. ${order.subtotal.toFixed(2)}</span></div>
-            <div><span>Tax (10%)</span><span>Rs. ${order.tax.toFixed(2)}</span></div>
-            <div class="hist-grand"><span>TOTAL</span><span>Rs. ${order.total.toFixed(2)}</span></div>
+            <div><span>Subtotal</span><span>Rs. ${(order.subtotal || 0).toFixed(2)}</span></div>
+            <div><span>Tax (10%)</span><span>Rs. ${(order.tax || 0).toFixed(2)}</span></div>
+            <div class="hist-grand"><span>TOTAL</span><span>Rs. ${(order.total || 0).toFixed(2)}</span></div>
         </div>`;
 };
 
 // ------------------------ Search Input ----------------------------------------
-$('#hist-search').on('input', renderHistory);
+$(document).on('input', '#hist-search', renderHistory); // ✅ FIX: document delegate — element may not exist at load time
 
 export { renderHistory };
